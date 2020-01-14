@@ -22,7 +22,7 @@ public:
     int getX() {
         return this->x;
     }
-
+//nikol
     int getY() {
         return this->y;
     }
