@@ -36,8 +36,9 @@ void MyTestClientHandler::handleClient(int client_socket) {
         if (this->cm->isSolutionExist(line)) {
             // there is a solution - returning it to the client
             std::cout << "there is a solution" << endl;
-            std::cout << cm->getSolution(line) << endl;
-            char const *solution = (cm->getSolution(line)).c_str();
+            string sol = cm->getSolution(line);
+            std::cout << sol << endl;
+            char const *solution = (sol).c_str();
             send(client_socket, solution, sizeLine, 0);
         } else {
             // there is'nt a solution - solving the problem, saving it in the cache

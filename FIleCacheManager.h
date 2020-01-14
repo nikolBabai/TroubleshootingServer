@@ -80,11 +80,11 @@ public:
         ifstream file_obj;
         solution *objPtr = new solution();
         // Opening file in input mode
-        string s = key;
-        std::hash<std::string>hasher;
-        long hashed= hasher(key);
-        string hashString= to_string(hashed);
-        file_obj.open(hashString + ".txt");
+        //string s = key;
+        //std::hash<std::string>hasher;
+        //long hashed= hasher(key);
+        //string hashString= to_string(hashed);
+        file_obj.open(key);
         file_obj.read((char *) objPtr, sizeof(solution));
         file_obj.close();
         return objPtr;
@@ -205,8 +205,9 @@ public:
             long hashed= hasher(key);
             string hashString= to_string(hashed);
             if (fopen((hashString + ".txt").c_str(), "r")) {
-                solution *objIn = readFromFile(key);
-                insert(key, objIn);
+                hashString += ".txt";
+                solution *objIn = readFromFile(hashString);
+                //insert(key, objIn);
                 return *objIn;
             }
             throw "key not exists both in cache and disk!"; // we should throw an exception here, but for Leetcode's sake
