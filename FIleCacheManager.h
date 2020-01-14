@@ -71,6 +71,8 @@ public:
         file_obj.write((char *) obj, sizeof(solution));
         file_obj.close();
     }
+
+
     void saveSolution(string key, solution *obj) {
         insert(key, obj);
     }
