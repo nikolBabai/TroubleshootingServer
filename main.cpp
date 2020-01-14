@@ -14,6 +14,7 @@
 #include "BestFirstSearch.h"
 #include "MyClientHandler.h"
 #include "MatrixMySearch.h"
+#include "BFS.h"
 
 namespace boot {
     class Main {
@@ -23,8 +24,8 @@ namespace boot {
             const int columnsIn = 3;
             deque<string> dequeStrings;
             dequeStrings.push_back("1,2,3");
-            dequeStrings.push_back("400,5,6");
-            dequeStrings.push_back("400,50,60");
+            dequeStrings.push_back("4,5,6");
+            dequeStrings.push_back("4,1,60");
             dequeStrings.push_back("0,0");
             dequeStrings.push_back("2,2");
             MatrixMySearch *m = new MatrixMySearch(rowsIn, columnsIn, dequeStrings);
@@ -32,15 +33,12 @@ namespace boot {
         }
 
         int main(int port) {
-            std::cout << "Hello, World!" << std::endl;
-            //int port = atoi(argv[1]);
             std::cout << port << std::endl;
             /**
             // checking part 2
             // part2();
              **/
             // checking part 3
-            part2();
             part3();
             return 0;
         };
@@ -50,15 +48,12 @@ namespace boot {
             CacheManager<string, string> *cacheManager = new FileCacheManager<string>(0);
             ClientHandler *clientHandler = new MyTestClientHandler(solver, cacheManager);
             server_side::Server *serialServer = new MySerialServer();
-            //TEST!!!!!!!!!!!!!!!!!!!!!!!!
-           // clientHandler->handleClient(0);
-            ///////////////////////////
             serialServer->open(8081, clientHandler);
         }
 
         void part3() {
             // building the searcher
-            CommonSearcher<string, Point> *commonSearcher = new BestFirstSearch<Point>();
+            CommonSearcher<string, Point> *commonSearcher = new BFS<Point>();
             Searcher<string, Point> *searcherBFS = commonSearcher;
            // SearchSolver<Searchable<Point>, string, Point> *searchSolver = searcherBFS;
            // building the searchable
@@ -66,6 +61,22 @@ namespace boot {
             // solving the problem
             string sol = searcherBFS->search(m);
             cout << sol << endl;
+            cout << searcherBFS->getNumberOfNodesEvaluated() << endl;
+            /*
+             *     CommonSearcher<string, Point> *commonSearcher = new BestFirstSearch<Point>();
+            Searcher<string, Point> *searcherBFS = commonSearcher;
+           // SearchSolver<Searchable<Point>, string, Point> *searchSolver = searcherBFS;
+           // building the searchable
+            MatrixMySearch *m = checkMatrix();
+            // solving the problem
+            string sol = searcherBFS->search(m);
+            cout << sol << endl;
+            cout << searcherBFS->getNumberOfNodesEvaluated() << endl;
+
+
+
+             */
+
         }
     };
 

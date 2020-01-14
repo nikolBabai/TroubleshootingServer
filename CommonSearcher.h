@@ -15,7 +15,14 @@ using namespace std;
 
 template<class solution, class T>
 class CommonSearcher : public Searcher<solution, T> {
+    class MyComperator {
+    public:
+        bool operator()(State<T> *left, State<T> *right) {
+            return (left->getCost()) > (right->getCost());
+        }
+    };
 protected:
+    priority_queue<State<T> *, vector<State<T> *>, MyComperator> openPriority_queue;
     Searchable<T> *searchable1;
     int evaluatedNodes = 0;
 public:
@@ -23,9 +30,6 @@ public:
 
     virtual solution search(Searchable<T> *searchable) = 0;
 
-    int getNUmberOfEvaluatedNOdes() {
-        return this->evaluatedNodes;
-    }
 
     void setSearchable(Searchable<T>* searchableIN) {
         this->searchable1 = searchableIN;
@@ -36,6 +40,20 @@ public:
     };
 
     virtual ~CommonSearcher() {}
+
+    int getNumberOfNodesEvaluated() override {
+        return this->evaluatedNodes;
+    }
+
+    priority_queue<State<T> *, vector<State<T> *>, MyComperator>
+    updatePriorityQueqe(priority_queue<State<T> *, vector<State<T> *>, MyComperator> enteredQueqe) {
+        priority_queue<State<T> *, vector<State<T> *>, MyComperator> newQueqe;
+        while (enteredQueqe.size() > 0) {
+            newQueqe.push(enteredQueqe.top());
+            enteredQueqe.pop();
+        }
+        return newQueqe;
+    }
 };
 
 #endif //EXX4_COMMONSEARCHER_H
