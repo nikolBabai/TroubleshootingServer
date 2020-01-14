@@ -40,6 +40,7 @@ namespace boot {
             // part2();
              **/
             // checking part 3
+            part2();
             part3();
             return 0;
         };
@@ -49,6 +50,9 @@ namespace boot {
             CacheManager<string, string> *cacheManager = new FileCacheManager<string>(0);
             ClientHandler *clientHandler = new MyTestClientHandler(solver, cacheManager);
             server_side::Server *serialServer = new MySerialServer();
+            //TEST!!!!!!!!!!!!!!!!!!!!!!!!
+           // clientHandler->handleClient(0);
+            ///////////////////////////
             serialServer->open(8081, clientHandler);
         }
 

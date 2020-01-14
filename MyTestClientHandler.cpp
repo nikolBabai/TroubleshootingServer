@@ -17,24 +17,20 @@ MyTestClientHandler::MyTestClientHandler(Solver<string, string> *solverIn,
 }
 
 void MyTestClientHandler::handleClient(int client_socket) {
-    while (true) {
         std::size_t sizeLine = 0;
         string line = "";
         // char buffer[1] = {0};
         char buffer[1024] = {0};
+      //  char buffer[1024] = {0};
         int flag = 1;
         while (flag) {
             int valread = ::read(client_socket, buffer, 1024);
-            //::read(client_socket, buffer, 1);
             line = buffer;
             if (valread < 1024) {
                 // we have all the line
                 flag = 0;
             }
             sizeLine += valread;
-        }
-        if (line == "end") {
-            break;
         }
         // checking if the problem has a solution in the cashManeger
         if (this->cm->isSolutionExist(line)) {
@@ -50,7 +46,11 @@ void MyTestClientHandler::handleClient(int client_socket) {
             std::cout << "there is'nt a solution" << endl;
             // returning to the client the solution
             char const *solutionChar = (solution1).c_str();
-            send(client_socket, solutionChar, sizeLine, 0);
-        }
+            int is_sent = send(client_socket, solutionChar, sizeLine, 0);
+            if (is_sent == -1) {
+                std::cout<<"Error sending message reveres"<<std::endl;
+            } else {
+                std::cout<<"solution  message sent to server" <<std::endl;
+            }
     }
 }

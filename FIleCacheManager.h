@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <fstream>
 #include "CacheManager.h"
+#include<functional>
 using namespace std;
 
 template<class problem = string>
@@ -59,23 +60,29 @@ public:
     }
 
     void saveToFile (string key, solution *obj) {
+        cout<<"test save to file:";
+        cout<<*obj<<endl;
         ofstream file_obj;
+        std::hash<std::string>hasher;
+        long hashed= hasher(key);
+        string hashString= to_string(hashed);
         // Opening file in append mode
-        file_obj.open(key + ".txt");
+        file_obj.open(hashString + ".txt");
         file_obj.write((char *) obj, sizeof(solution));
         file_obj.close();
     }
-
     void saveSolution(string key, solution *obj) {
         insert(key, obj);
     }
-
     solution *readFromFile(string key) {
         ifstream file_obj;
         solution *objPtr = new solution();
         // Opening file in input mode
         string s = key;
-        file_obj.open(s + ".txt");
+        std::hash<std::string>hasher;
+        long hashed= hasher(key);
+        string hashString= to_string(hashed);
+        file_obj.open(hashString + ".txt");
         file_obj.read((char *) objPtr, sizeof(solution));
         file_obj.close();
         return objPtr;
@@ -84,6 +91,7 @@ public:
     // insert to the map
     void insert(string key, string obj) {
         string *objIn = new string(obj);
+        string s= *objIn;
         insert(key, objIn);
     }
 
@@ -101,9 +109,9 @@ public:
         addToFront(nodeIn);
         put(key, nodeIn);
     }
-
     void addToFront(node<string> *nodeIn) {
-        // Wire up the new node being to be inserted
+/*
+         // Wire up the new node being to be inserted
         if (this->capacity != this->totalItemsInCache) {
             nodeIn->prev = head;
             nodeIn->next = head->next;
@@ -131,6 +139,27 @@ public:
             delete temp;
             addToFront(nodeIn);
         }
+ */
+        // Wire up the new node being to be inserted
+            nodeIn->prev = head;
+            nodeIn->next = head->next;
+            auto search = this->mp.find(nodeIn->key);
+            if (search != this->mp.end()) {
+                (search->second)->prev = head;
+                (search->second)->next = head->next;
+            }
+            node<string> *temp = head->next;
+            (head->next)->prev = nodeIn;
+            head->next = nodeIn;
+            search = this->mp.find((temp)->key);
+            if (search != this->mp.end()) {
+                (search->second)->prev = nodeIn;
+            }
+            search = this->mp.find(head->key);
+            if (search != this->mp.end()) {
+                (search->second)->next = nodeIn;
+            }
+            this->totalItemsInCache++;
     }
 
     // removing from the map
@@ -169,15 +198,18 @@ public:
         //type* objIn;// = new type()
         solution t;
         auto search = mp.find(key);
-        // std::ifstream p (s+".txt");
-        if (search == mp.end()) {
-            if (fopen((key + ".txt").c_str(), "r")) {
+        if (search != mp.end()) {
+            std::hash<std::string>hasher;
+            long hashed= hasher(key);
+            string hashString= to_string(hashed);
+            if (fopen((hashString + ".txt").c_str(), "r")) {
                 solution *objIn = readFromFile(key);
                 insert(key, objIn);
                 return *objIn;
             }
             throw "key not exists both in cache and disk!"; // we should throw an exception here, but for Leetcode's sake
         }
+        //check
         moveToHead((search->second), (search->second));
         return *(((search->second)->obj));
     }

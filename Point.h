@@ -28,5 +28,4 @@ public:
         return this->y;
     }
 };
-
 #endif //EXX4_POINT_H
