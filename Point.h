@@ -9,6 +9,7 @@ class Point {
 public:
     const int x;
     const int y;
+
     Point getLocation() {
         return *this;
     }
@@ -22,9 +23,10 @@ public:
     int getX() {
         return this->x;
     }
-//nikol babai
+
     int getY() {
         return this->y;
     }
 };
+
 #endif //EXX4_POINT_H
