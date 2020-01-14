@@ -1,0 +1,1 @@
+/usr/bin/c++  -pthread -g   CMakeFiles/exx4.dir/main.cpp.o CMakeFiles/exx4.dir/StringReverser.cpp.o CMakeFiles/exx4.dir/MyTestClientHandler.cpp.o CMakeFiles/exx4.dir/MySerialServer.cpp.o CMakeFiles/exx4.dir/MyClientHandler.cpp.o CMakeFiles/exx4.dir/MatrixMySearch.cpp.o  -o exx4 
