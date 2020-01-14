@@ -66,7 +66,6 @@ namespace boot {
     };
 
 }
-
 int main(int argsc, char *argv[]) {
     boot::Main main;
     main.main(atoi(argv[1]));
