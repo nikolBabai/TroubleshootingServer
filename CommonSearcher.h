@@ -15,7 +15,14 @@ using namespace std;
 
 template<class solution, class T>
 class CommonSearcher : public Searcher<solution, T> {
+    class MyComperator {
+    public:
+        bool operator()(State<T> *left, State<T> *right) {
+            return (left->getCost()) > (right->getCost());
+        }
+    };
 protected:
+    priority_queue<State<T> *, vector<State<T> *>, MyComperator> openPriority_queue;
     Searchable<T> *searchable1;
     int evaluatedNodes = 0;
 public:
@@ -23,9 +30,6 @@ public:
 
     virtual solution search(Searchable<T> *searchable) = 0;
 
-    int getNUmberOfEvaluatedNOdes() {
-        return this->evaluatedNodes;
-    }
 
     void setSearchable(Searchable<T>* searchableIN) {
         this->searchable1 = searchableIN;
@@ -36,6 +40,57 @@ public:
     };
 
     virtual ~CommonSearcher() {}
+
+    int getNumberOfNodesEvaluated() override {
+        return this->evaluatedNodes;
+    }
+
+    priority_queue<State<T> *, vector<State<T> *>, MyComperator>
+    updatePriorityQueqe(priority_queue<State<T> *, vector<State<T> *>, MyComperator> enteredQueqe) {
+        priority_queue<State<T> *, vector<State<T> *>, MyComperator> newQueqe;
+        while (enteredQueqe.size() > 0) {
+            newQueqe.push(enteredQueqe.top());
+            enteredQueqe.pop();
+        }
+        return newQueqe;
+    }
+
+    string backTrace(State<T> *step) {
+        // return the steps we did to get to this goal
+        string solutionMatrix = "";
+        State<T> *start = this->getSearchable()->getInitialeState();
+        // checking if we arrived to the start state
+        while (!step->Equals(start)) {
+            State<T> *prev = step->getCameFRom();
+            string s = getDirection(step, prev);
+            solutionMatrix = s + solutionMatrix;
+            solutionMatrix = ", " + solutionMatrix;
+            step = step->getCameFRom();
+        }
+        solutionMatrix = &solutionMatrix[2];
+        return solutionMatrix;
+    }
+
+    string getDirection(State<T> *step, State<T> *prev) {
+        std::pair<int, int> stepDirection = this->searchable1->getLocationInSearchable(step);
+        std::pair<int, int> prevDirection = this->searchable1->getLocationInSearchable(prev);
+
+        int xStep = stepDirection.first;
+        int yStep = stepDirection.second;
+        int xPrev = prevDirection.first;
+        int yPrev = prevDirection.second;
+
+        // checking the direction it came from
+        if (xStep > xPrev) {
+            return "Down";
+        } else if (xStep < xPrev) {
+            return "Up";
+        } else if (yStep > yPrev) {
+            return "Right";
+        } else if (yStep > yPrev) {
+            return "Left";
+        }
+    }
 };
 
 #endif //EXX4_COMMONSEARCHER_H

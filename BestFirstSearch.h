@@ -9,33 +9,24 @@
 
 template<class T>
 class BestFirstSearch : public CommonSearcher<string, T> {
-    class MyComperator {
-    public:
-        bool operator()(State<T> *left, State<T> *right) {
-            return (left->getCost()) > (right->getCost());
-        }
-    };
-
 private:
-    priority_queue<State<T> *, vector<State<T> *>, MyComperator> openPriority_queue;
     vector<State<T> *> closed;
     vector<State<T> *> statesInOpenPriority;
 
 public:
-
     int openListSize() {
-        return openPriority_queue.size();
+        return this->openPriority_queue.size();
     }
 
     void addToOpenList(State<T> *state) {
-        openPriority_queue.push(state);
+        this->openPriority_queue.push(state);
         statesInOpenPriority.push_back(state);
     }
 
     State<T> *popOpenList() {
         this->evaluatedNodes++;
-        State<T> *topItem = openPriority_queue.top();
-        openPriority_queue.pop();
+        State<T> *topItem = this->openPriority_queue.top();
+        this->openPriority_queue.pop();
         return topItem;
     }
 
@@ -56,7 +47,7 @@ public:
             closed.push_back(n);
             if ((*n).Equals(searchable->getGoalState())) {
                 // return the steps we did to get to this goal
-                return backTrace(n);
+                return this->backTrace(n);
             }
             // createSuccessors(n) returns a list of states with n as a parent
             list<State<T> *> successors = searchable->createSuccessors(n);
@@ -78,7 +69,7 @@ public:
                             // updating the cameFrom
                             s->setCameFRom(n);
                             s->setTrailCost(newTrailCost);
-                            openPriority_queue = updatePriorityQueqe(openPriority_queue);
+                            this->openPriority_queue = this->updatePriorityQueqe(this->openPriority_queue);
                         }
 
                     }
@@ -96,12 +87,11 @@ public:
         }
         return false;
     }
-
+/*
     string backTrace(State<T> *step) {
         // return the steps we did to get to this goal
         string solutionMatrix = "";
         State<T> *start = this->getSearchable()->getInitialeState();
-        // State<T> *step = this->getSearchable()->getGoalState();
         // checking if we arrived to the start state
         while (!step->Equals(start)) {
             State<T> *prev = step->getCameFRom();
@@ -134,16 +124,7 @@ public:
             return "Left";
         }
     }
-
-    priority_queue<State<T> *, vector<State<T> *>, MyComperator>
-    updatePriorityQueqe(priority_queue<State<T> *, vector<State<T> *>, MyComperator> enteredQueqe) {
-        priority_queue<State<T> *, vector<State<T> *>, MyComperator> newQueqe;
-        while (enteredQueqe.size() > 0) {
-            newQueqe.push(enteredQueqe.top());
-            enteredQueqe.pop();
-        }
-        return newQueqe;
-    }
+    */
 
 };
 
