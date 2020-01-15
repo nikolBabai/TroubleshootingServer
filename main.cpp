@@ -14,6 +14,7 @@
 #include "BestFirstSearch.h"
 #include "MyClientHandler.h"
 #include "MatrixMySearch.h"
+#include "DFS.h"
 #include "BFS.h"
 
 namespace boot {
@@ -54,8 +55,8 @@ namespace boot {
         void part3() {
             // building the searcher
            // CommonSearcher<string, Point> *commonSearcher = new BFS<Point>();
-            CommonSearcher<string, Point> *commonSearcher = new BestFirstSearch<Point>();
-
+            //CommonSearcher<string, Point> *commonSearcher = new BestFirstSearch<Point>();
+            CommonSearcher<string, Point> *commonSearcher = new DFS<Point>();
             Searcher<string, Point> *searcherBFS = commonSearcher;
            // SearchSolver<Searchable<Point>, string, Point> *searchSolver = searcherBFS;
            // building the searchable
