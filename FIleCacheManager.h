@@ -27,7 +27,7 @@ public:
     }
 
     virtual ~node() {
-      //  delete(obj);
+        //  delete(obj);
         /**to check**/
     }
 
@@ -74,6 +74,8 @@ public:
 
 
     void saveSolution(string key, solution *obj) {
+        solution s = *obj;
+        cout<<"solution save to solution is "+s<<endl;
         insert(key, obj);
     }
     solution *readFromFile(string key) {
@@ -99,6 +101,7 @@ public:
 
     void insert(string key, string *objIn) {
         saveToFile(key, objIn);
+        string s= *objIn;
         //node <type*> nodeIn= new ::node<type>(key,new type(obj));
         node<string> *nodeIn = new ::node<string>(key, objIn);
         auto search = this->mp.find(key);//o(1)
@@ -143,25 +146,25 @@ public:
         }
  */
         // Wire up the new node being to be inserted
-            nodeIn->prev = head;
-            nodeIn->next = head->next;
-            auto search = this->mp.find(nodeIn->key);
-            if (search != this->mp.end()) {
-                (search->second)->prev = head;
-                (search->second)->next = head->next;
-            }
-            node<string> *temp = head->next;
-            (head->next)->prev = nodeIn;
-            head->next = nodeIn;
-            search = this->mp.find((temp)->key);
-            if (search != this->mp.end()) {
-                (search->second)->prev = nodeIn;
-            }
-            search = this->mp.find(head->key);
-            if (search != this->mp.end()) {
-                (search->second)->next = nodeIn;
-            }
-            this->totalItemsInCache++;
+        nodeIn->prev = head;
+        nodeIn->next = head->next;
+        auto search = this->mp.find(nodeIn->key);
+        if (search != this->mp.end()) {
+            (search->second)->prev = head;
+            (search->second)->next = head->next;
+        }
+        node<string> *temp = head->next;
+        (head->next)->prev = nodeIn;
+        head->next = nodeIn;
+        search = this->mp.find((temp)->key);
+        if (search != this->mp.end()) {
+            (search->second)->prev = nodeIn;
+        }
+        search = this->mp.find(head->key);
+        if (search != this->mp.end()) {
+            (search->second)->next = nodeIn;
+        }
+        this->totalItemsInCache++;
     }
 
     // removing from the map
@@ -193,7 +196,7 @@ public:
         }
         return true;
     }
-   // bool isSolutionExist(string key) {
+    // bool isSolutionExist(string key) {
     //}
 
     solution getSolution(string key) {

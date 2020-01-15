@@ -84,10 +84,12 @@ int MySerialServer::open(int port, ClientHandler *client_handler) {
         cerr << "Bad connedction 4\n";
         exit(1);
     }
+
     socklen_t clilen = sizeof(cli_addr);
     int *sockfdPtr = &socketfd;
     struct sockaddr_in *client_addrPtr = &cli_addr;
     socklen_t *clientPtr = &clilen;
+
     std::thread t1(&MySerialServer::start, this, sockfdPtr, client_addrPtr, clientPtr, client_handler);
     t1.join();
     cout << "in open" << endl;
