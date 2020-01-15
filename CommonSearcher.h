@@ -8,9 +8,6 @@
 #include "Searcher.h"
 #include "queue"
 #include "unordered_set"
-
-//#include "Point.h"
-
 using namespace std;
 
 template<class solution, class T>
