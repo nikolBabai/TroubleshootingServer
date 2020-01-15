@@ -88,6 +88,7 @@ public:
             return "Left";
         }
     }
+
 };
 
 #endif //EXX4_COMMONSEARCHER_H

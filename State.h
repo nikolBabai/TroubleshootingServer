@@ -55,6 +55,9 @@ public:
     T getState() {
         return this->state;
     }
+    double getHuristic(){
+
+    }
 };
 
 
