@@ -18,8 +18,8 @@ private:
 public:
     string search(Searchable<T> *searchable) override {
         this->setSearchable(searchable);
-        State<T> *startState = this->searchable1->getInitialeState();
-         return DfsUtil(visited, startState);
+        State<T> *startState = this->getSearchable()->getInitialeState();
+        return DfsUtil(visited, startState);
     }
 
     string DfsUtil(vector<State<T> *> visited, State<T> *curState) {

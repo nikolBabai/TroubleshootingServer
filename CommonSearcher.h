@@ -8,6 +8,7 @@
 #include "Searcher.h"
 #include "queue"
 #include "unordered_set"
+
 using namespace std;
 
 template<class solution, class T>
@@ -19,9 +20,10 @@ public:
             return (left->getCost()) > (right->getCost());
         }
     };
+
 protected:
     priority_queue<State<T> *, vector<State<T> *>, MyComperator> openPriority_queue;
-    Searchable<T> *searchable1;
+    // Searchable<T> *searchable1;
     int evaluatedNodes = 0;
 public:
     CommonSearcher() {}
@@ -29,13 +31,13 @@ public:
     virtual solution search(Searchable<T> *searchable) = 0;
 
 
-    void setSearchable(Searchable<T>* searchableIN) {
-        this->searchable1 = searchableIN;
-    }
+    //void setSearchable(Searchable<T>* searchableIN) {
+    //   this->searchable1 = searchableIN;
+    //}
 
-    Searchable<T>* getSearchable() {
-        return this->searchable1;
-    };
+    //Searchable<T>* getSearchable() {
+    //   return this->searchable1;
+    //};
 
     virtual ~CommonSearcher() {}
 
@@ -70,8 +72,8 @@ public:
     }
 
     string getDirection(State<T> *step, State<T> *prev) {
-        std::pair<int, int> stepDirection = this->searchable1->getLocationInSearchable(step);
-        std::pair<int, int> prevDirection = this->searchable1->getLocationInSearchable(prev);
+        std::pair<int, int> stepDirection = this->getSearchable()->getLocationInSearchable(step);
+        std::pair<int, int> prevDirection = this->getSearchable()->getLocationInSearchable(prev);
 
         int xStep = stepDirection.first;
         int yStep = stepDirection.second;
