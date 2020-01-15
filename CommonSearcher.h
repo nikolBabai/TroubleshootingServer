@@ -12,6 +12,7 @@ using namespace std;
 
 template<class solution, class T>
 class CommonSearcher : public Searcher<solution, T> {
+public:
     class MyComperator {
     public:
         bool operator()(State<T> *left, State<T> *right) {
