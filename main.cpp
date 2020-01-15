@@ -58,7 +58,7 @@ namespace boot {
            // CommonSearcher<string, Point> *commonSearcher = new BFS<Point>();
             //CommonSearcher<string, Point> *commonSearcher = new BestFirstSearch<Point>();
           //  CommonSearcher<string, Point> *commonSearcher = new DFS<Point>();
-            CommonSearcher<string, Point> *commonSearcher = new Astar<string, Point>();
+            CommonSearcher<string, Point> *commonSearcher = new Astar<Point>();
 
             Searcher<string, Point> *searcherBFS = commonSearcher;
            // SearchSolver<Searchable<Point>, string, Point> *searchSolver = searcherBFS;

@@ -15,7 +15,7 @@ private:
     T state;
     double cost;
     double trailCost = 0;
-    State<T> *cameFrom;
+    State<T> *cameFrom; double heuristic;
 public:
     bool Equals(State<T> *s) {
         return state == s->getState();
@@ -55,10 +55,12 @@ public:
     T getState() {
         return this->state;
     }
-    double getHuristic(){
-
+    double getHeuristic(){
+return this->heuristic;
+    }
+    void setHeuristic(double heuristic){
+        this->heuristic =heuristic;
     }
 };
-
 
 #endif //EXX4_STATE_H
