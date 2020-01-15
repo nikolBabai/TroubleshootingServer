@@ -41,6 +41,8 @@ public:
     void initializeStates();
 
     std::pair<int, int> getLocationInSearchable(State<Point> *state) override;
+
+    bool isValidState(State<Point> *s);
 };
 
 #endif //EXX4_MATRIXMYSEARCH_H

@@ -47,7 +47,7 @@ public:
             closed.push_back(n);
             if ((*n).Equals(searchable->getGoalState())) {
                 // return the steps we did to get to this goal
-                return backTrace(n);
+                return this->backTrace(n);
             }
             // createSuccessors(n) returns a list of states with n as a parent
             list<State<T> *> successors = searchable->createSuccessors(n);
@@ -87,7 +87,7 @@ public:
         }
         return false;
     }
-
+/*
     string backTrace(State<T> *step) {
         // return the steps we did to get to this goal
         string solutionMatrix = "";
@@ -124,6 +124,7 @@ public:
             return "Left";
         }
     }
+    */
 
 };
 

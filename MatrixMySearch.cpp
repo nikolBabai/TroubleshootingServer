@@ -34,29 +34,41 @@ double MatrixMySearch::getCostInMatrix(int row, int col) {
 std::pair<int, int> MatrixMySearch::getLocationInSearchable(State<Point> *state) {
     int x = state->getState().x;
     int y = state->getState().y;
-    return std::make_pair(x,y);
+    return std::make_pair(x, y);
 }
 
+/** entering all the valis neighbor states into a list nd returning it**/
 list<State<Point> *> MatrixMySearch::createSuccessors(State<Point> *s) {
     Point p = (s->getState());
     int rowP = p.x;
     int colP = p.y;
     list<State<Point> *> *listStates = new list<State<Point> *>();
     if (rowP != 0) {
-        listStates->push_back(this->matrixOfStates[rowP - 1][colP]);
+        if (isValidState(this->matrixOfStates[rowP - 1][colP])) {
+            listStates->push_back(this->matrixOfStates[rowP - 1][colP]);
+        }
     }
     if (rowP != this->rows - 1) {
-        listStates->push_back(this->matrixOfStates[rowP + 1][colP]);
+        if (isValidState(this->matrixOfStates[rowP + 1][colP])) {
+            listStates->push_back(this->matrixOfStates[rowP + 1][colP]);
+        }
     }
     if (colP != 0) {
-        listStates->push_back(this->matrixOfStates[rowP][colP - 1]);
+        if (isValidState(this->matrixOfStates[rowP][colP - 1])) {
+            listStates->push_back(this->matrixOfStates[rowP][colP - 1]);
+        }
     }
     if (colP != this->columns - 1) {
-        listStates->push_back(this->matrixOfStates[rowP][colP + 1]);
+        if (isValidState(this->matrixOfStates[rowP][colP + 1])) {
+            listStates->push_back(this->matrixOfStates[rowP][colP + 1]);
+        }
     }
     return *listStates;
 }
 
+bool MatrixMySearch::isValidState(State<Point> *s) {
+    return s->getCost() != -1;
+}
 
 bool MatrixMySearch::isGoal(State<Point> *s) {
     //return (s->Equals(this->goalState->getState()));

@@ -21,29 +21,53 @@ public:
         while(!this->openPriority_queue.empty()) {
             State<T>* curState= this->openPriority_queue.top();
             if ((*curState).Equals(searchable->getGoalState())) {
-                return backtrace();
+                return this->backTrace(curState);
             }
             this->openPriority_queue.pop();
-            list<State<T> *> successors = searchable->createSuccessors(searchable->getInitialeState());
+            // entering the successors to the priority list too
+            list<State<T> *> successors = searchable->createSuccessors(curState);
             for (State<T> * n: successors) {
                auto iter = find(visited.begin(),visited.end(), n);
-                if (iter!=visited.end()) {
+               // if we didn't visit in this state before
+                if (iter==visited.end()) {
                     visited.push_back(n);
                     this->openPriority_queue.push(n);
                     n->setCameFRom(curState);
-                    n->setCost(curState->getCost()+1);
+                    // updating the number of states we visited in
+                    this->evaluatedNodes++;
+                   // n->setCost(curState->getCost()+1);
                 }
             }
     }
 }
-string backtrace() {
-    State<T>* curState=this->getSearchable()->getGoalState();
-    string *line = new string("");
-        while((*curState).Equals(this->searchable1->getGoalState())) {
-            *line += getDirection(curState, curState->getCameFRom()) + ",";
+/*
+    string backTrace(State<T> *step) {
+        // return the steps we did to get to this goal
+        string solutionMatrix = "";
+        State<T> *start = this->getSearchable()->getInitialeState();
+        // checking if we arrived to the start state
+        while (!step->Equals(start)) {
+            State<T> *prev = step->getCameFRom();
+            string s = getDirection(step, prev);
+            solutionMatrix = s + solutionMatrix;
+            solutionMatrix = ", " + solutionMatrix;
+            step = step->getCameFRom();
+        }
+        solutionMatrix = &solutionMatrix[2];
+        return solutionMatrix;
+    }
+/*
+string backtrace(State<T>* curState) {
+    string line = "";
+        while(!(*curState).Equals(this->searchable1->getInitialeState())) {
+            line = getDirection(curState, curState->getCameFRom()) + line;
+            line = "," + line;
             curState = curState->getCameFRom();
         }
+        line = &line[2];
+        return line;
     }
+
     string getDirection(State<T> *step, State<T> *prev) {
         std::pair<int, int> stepDirection = this->searchable1->getLocationInSearchable(step);
         std::pair<int, int> prevDirection = this->searchable1->getLocationInSearchable(prev);
@@ -64,5 +88,6 @@ string backtrace() {
             return "Left";
         }
     }
+    */
 };
 #endif //EXX4_BFS_H
