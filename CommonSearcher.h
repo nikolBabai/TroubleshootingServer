@@ -56,6 +56,8 @@ public:
     }
 
     string backTrace(State<T> *step) {
+        cout << "trail cost is : ";
+        cout << step->getTrailCost() << endl;
         // return the steps we did to get to this goal
         string solutionMatrix = "";
         State<T> *start = this->getSearchable()->getInitialeState();
@@ -64,10 +66,13 @@ public:
             State<T> *prev = step->getCameFRom();
             string s = getDirection(step, prev);
             solutionMatrix = s + solutionMatrix;
+            solutionMatrix = "(" + to_string(step->getTrailCost()) + ")" + solutionMatrix;
             solutionMatrix = ", " + solutionMatrix;
             step = step->getCameFRom();
         }
         solutionMatrix = &solutionMatrix[2];
+        cout << "number of nodes evaluated: ";
+        cout << this->getNumberOfNodesEvaluated() << endl;
         return solutionMatrix;
     }
 

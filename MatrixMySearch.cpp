@@ -71,7 +71,7 @@ bool MatrixMySearch::isValidState(State<Point> *s) {
 }
 
 bool MatrixMySearch::isGoal(State<Point> *s) {
-    //return (s->Equals(this->goalState->getState()));
+    return (s->Equals(this->getGoalState()));
 }
 
 
@@ -86,7 +86,7 @@ void MatrixMySearch::initializeMatrix() {
             const int y = col;
             Point *p = new Point(x, y);
             (this->matrixOfStates)[row][col] = (new State<Point>(*p, cost, cost));
-            cout << this->matrixOfStates[row][col]->getCost() << endl;
+           // cout << this->matrixOfStates[row][col]->getCost() << endl;
         }
         this->dequeStrings.pop_front();
     }

@@ -22,11 +22,11 @@ private:
 public:
     MatrixMySearch(const int rowsIn,const int columnsIn, deque<string> dequeStrings);
 
-    State<Point>* getInitialeState() override;
+    State<Point>* getInitialeState();
 
-    State<Point>* getGoalState() override;
+    State<Point>* getGoalState();
 
-    list<State<Point>*> createSuccessors(State<Point>* s) override;
+    list<State<Point>*> createSuccessors(State<Point>* s);
 
     void initializeMatrix();
 
@@ -40,7 +40,7 @@ public:
 
     void initializeStates();
 
-    std::pair<int, int> getLocationInSearchable(State<Point> *state) override;
+    std::pair<int, int> getLocationInSearchable(State<Point> *state);
 
     bool isValidState(State<Point> *s);
 };

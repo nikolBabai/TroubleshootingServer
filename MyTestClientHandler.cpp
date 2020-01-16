@@ -19,9 +19,7 @@ MyTestClientHandler::MyTestClientHandler(Solver<string, string> *solverIn,
 void MyTestClientHandler::handleClient(int client_socket) {
         std::size_t sizeLine = 0;
         string line = "";
-        // char buffer[1] = {0};
         char buffer[1024] = {0};
-      //  char buffer[1024] = {0};
         int flag = 1;
         while (flag) {
             int valread = ::read(client_socket, buffer, 1024);

@@ -41,6 +41,7 @@ public:
                     visited.push_back(n);
                     this->openPriority_queue.push(n);
                     n->setCameFRom(curState);
+                    n->setTrailCost(curState->getTrailCost() + n->getCost());
                     // updating the number of states we visited in
                     this->evaluatedNodes++;
                 }

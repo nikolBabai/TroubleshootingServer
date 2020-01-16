@@ -41,6 +41,7 @@ public:
         for (State<T> *n: successors) {
             if (!checkIfVisitedContains(visited, n)) {
                 n->setCameFRom(curState);
+                n->setTrailCost(curState->getTrailCost() + n->getCost());
                 line = DfsUtil(visited, n);
                 if (line != "") {
                     return line;

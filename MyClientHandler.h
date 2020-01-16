@@ -11,26 +11,27 @@
 #include "Point.h"
 #include "deque"
 #include "State.h"
+#include "MatrixMySearch.h"
 
 //template<class problem, class solution>
 class MyClientHandler : public ClientHandler {
 private:
     deque<string> dequeStrings;
-    Solver<Searchable<Point>, string> *solver;
+    Solver<Searchable<Point>*, string> *solver;
     CacheManager<string, string> *cm;
-    Searchable<Point> *matrix;
-    string problem = "";
+    //MatrixMySearch matrix;
+    //string problemString = "";
 public:
     // the server's problen is from type Searchable that is from type Point
-    MyClientHandler(Solver<Searchable<Point>, string> *solverIn, CacheManager<string, string> *cmIn);
+    MyClientHandler(Solver<Searchable<Point>*, string> *solverIn, CacheManager<string, string> *cmIn);
 
     void handleClient(int client_socket);
 
-    void buildProblem();
+    MatrixMySearch* buildProblem();
 
     string edit(string s);
 
-    void buildMatrix(int rows, int cols);
+    MatrixMySearch* buildMatrix(int rows, int cols);
 };
 
 

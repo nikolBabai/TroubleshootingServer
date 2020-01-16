@@ -5,59 +5,72 @@
 #include "MyClientHandler.h"
 #include "Searchable.h"
 #include "MatrixMySearch.h"
+#include "SearchSolver.h"
 
 using namespace std;
 
-MyClientHandler::MyClientHandler(Solver<Searchable<Point>, string> *solver,
+MyClientHandler::MyClientHandler(Solver<Searchable<Point> *, string> *solver,
                                  CacheManager<string, string> *cm) : solver(solver), cm(cm) {}
 
 void MyClientHandler::handleClient(int client_socket) {
-    string line;
-    char buffer[1024] = {0};
+    std::size_t sizeLine = 0;
+    string megaLine = "";
+    string line = "";
+    char buffer[1] = {0};
+    int flag = 1;
     while (true) {
-        line = "";
-        int valread = ::read(client_socket, buffer, 1024);
-        line = buffer;
+        while (flag) {
+            ::read(client_socket, buffer, 1);
+            if (buffer[0] != '\n') {
+                line = line + buffer;
+            } else {
+                flag = 0;
+            }
+        }
         if (line.find("end") != std::string::npos) {
             break;
         }
-        if (valread < 1024) {
-            // we have all the line
-            dequeStrings.push_back(line);
-        } else {
-            while ((valread >= 1024)) {
-                valread = ::read(client_socket, buffer, 1024);
-                line += buffer;
-            }
-            dequeStrings.push_back(line);
-        }
+        // building a mega line for the FileCacheManager
+        dequeStrings.push_back(line);
+        megaLine += line;
+        flag = 1;
+        line = "";
     }
     // building the problem - the matrix
-    buildProblem();
-    /**
+    MatrixMySearch *matrixProb = buildProblem();
+    //Searchable<Point> *matrix = &matrixProb;
+
     // checking if the problem has a solution in the cashManeger
-    if (this->cm->isSolutionExist(line)) {
+    if (this->cm->isSolutionExist(megaLine)) {
         // there is a solution - returning it to the client
         std::cout << "there is a solution" << endl;
-        std::cout << cm->getSolution(line) << endl;
-        string solution = cm->getSolution(line);
-        //::write(client_socket, solution, sizeof(solution));
+        string sol = cm->getSolution(megaLine);
+        std::cout << sol << endl;
+        sizeLine = sol.length();
+        char const *solution = (sol).c_str();
+        send(client_socket, solution, sizeLine, 0);
     } else {
         // there is'nt a solution - solving the problem, saving it in the cache
-        string solution1 = solver->solve(line);
-        cm->saveSolution(line, &solution1);
+        string solution1 = solver->solve(matrixProb);
+        sizeLine = solution1.length();
+        cm->saveSolution(megaLine, &solution1);
         std::cout << "there is'nt a solution" << endl;
         // returning to the client the solution
-        //::write(client_socket, solution1);
+        char const *solutionChar = (solution1).c_str();
+        int is_sent = send(client_socket, solutionChar, sizeLine, 0);
+        if (is_sent == -1) {
+            std::cout << "Error sending message reveres" << std::endl;
+        } else {
+            std::cout << "solution  message sent to server" << std::endl;
+        }
     }
-     **/
 }
 
 //read line by line
 //when getthing to last two lines get the point x,y of the first
 //create searchable matrix
 //call matrix constructor with start point end point
-void MyClientHandler::buildProblem() {
+MatrixMySearch *MyClientHandler::buildProblem() {
     // minus 2 because we also have the start and end in the deque
     int rows = this->dequeStrings.size() - 2;
     int cols = 1;
@@ -69,7 +82,7 @@ void MyClientHandler::buildProblem() {
         }
     }
     // building a matrix
-    buildMatrix(rows, cols);
+    return buildMatrix(rows, cols);
 }
 
 string MyClientHandler::edit(string s) {
@@ -82,9 +95,9 @@ string MyClientHandler::edit(string s) {
     return s;
 }
 
-void MyClientHandler::buildMatrix(int rows, int cols) {
+MatrixMySearch *MyClientHandler::buildMatrix(int rows, int cols) {
     //Point *start, Point *destination, int rows, int columns, deque<string> dequeStrings);
     const int r = rows;
     const int c = cols;
-    this->matrix = new MatrixMySearch(r, c, this->dequeStrings);
+    return (new MatrixMySearch(r, c, this->dequeStrings));
 }

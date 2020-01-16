@@ -75,7 +75,7 @@ public:
 
     void saveSolution(string key, solution *obj) {
         solution s = *obj;
-        cout<<"solution save to solution is "+s<<endl;
+        cout<<"the solution was saved "+s<<endl;
         insert(key, obj);
     }
     solution *readFromFile(string key) {
