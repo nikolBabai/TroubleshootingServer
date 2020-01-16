@@ -31,13 +31,13 @@ public:
         this->evaluatedNodes++;
 
         // ending condition to the recursion
-        if ((*curState).Equals(this->getSearchable()->getGoalState())) {
+        if ((*curState).Equals((this->getSearchable())->getGoalState())) {
             line = this->backTrace(curState);
             return line;
         }
         this->openPriority_queue.pop();
         // entering the successors to the priority list too
-        list<State<T> *> successors = this->getSearchable()->createSuccessors(curState);
+        list<State<T> *> successors = (this->getSearchable())->createSuccessors(curState);
         for (State<T> *n: successors) {
             if (!checkIfVisitedContains(visited, n)) {
                 n->setCameFRom(curState);

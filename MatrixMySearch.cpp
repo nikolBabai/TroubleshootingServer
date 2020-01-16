@@ -43,24 +43,25 @@ list<State<Point> *> MatrixMySearch::createSuccessors(State<Point> *s) {
     int rowP = p.x;
     int colP = p.y;
     list<State<Point> *> *listStates = new list<State<Point> *>();
-    if (rowP != 0) {
-        if (isValidState(this->matrixOfStates[rowP - 1][colP])) {
-            listStates->push_back(this->matrixOfStates[rowP - 1][colP]);
-        }
-    }
+
     if (rowP != this->rows - 1) {
         if (isValidState(this->matrixOfStates[rowP + 1][colP])) {
             listStates->push_back(this->matrixOfStates[rowP + 1][colP]);
         }
     }
-    if (colP != 0) {
-        if (isValidState(this->matrixOfStates[rowP][colP - 1])) {
-            listStates->push_back(this->matrixOfStates[rowP][colP - 1]);
+    if (rowP != 0) {
+        if (isValidState(this->matrixOfStates[rowP - 1][colP])) {
+            listStates->push_back(this->matrixOfStates[rowP - 1][colP]);
         }
     }
     if (colP != this->columns - 1) {
         if (isValidState(this->matrixOfStates[rowP][colP + 1])) {
             listStates->push_back(this->matrixOfStates[rowP][colP + 1]);
+        }
+    }
+    if (colP != 0) {
+        if (isValidState(this->matrixOfStates[rowP][colP - 1])) {
+            listStates->push_back(this->matrixOfStates[rowP][colP - 1]);
         }
     }
     return *listStates;

@@ -88,6 +88,7 @@ public:
         //string hashString= to_string(hashed);
         file_obj.open(key);
         file_obj.read((char *) objPtr, sizeof(solution));
+        cout<<*objPtr<<endl;
         file_obj.close();
         return objPtr;
     }
@@ -211,6 +212,7 @@ public:
                 hashString += ".txt";
                 solution *objIn = readFromFile(hashString);
                 //insert(key, objIn);
+                //cout << to_string(objIn)<< endl;
                 return *objIn;
             }
             throw "key not exists both in cache and disk!"; // we should throw an exception here, but for Leetcode's sake

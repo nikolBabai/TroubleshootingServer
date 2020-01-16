@@ -50,11 +50,16 @@ void MyClientHandler::handleClient(int client_socket) {
         char const *solution = (sol).c_str();
         send(client_socket, solution, sizeLine, 0);
     } else {
+        std::cout << "there is'nt a solution" << endl;
         // there is'nt a solution - solving the problem, saving it in the cache
         string solution1 = solver->solve(matrixProb);
+        if (solution1 == ""){
+            std::cout << "there is'nt a solution to the problem" << endl;
+            solution1 = "there is'nt a solution to the problem";
+        } else {
+            cm->saveSolution(megaLine, &solution1);
+        }
         sizeLine = solution1.length();
-        cm->saveSolution(megaLine, &solution1);
-        std::cout << "there is'nt a solution" << endl;
         // returning to the client the solution
         char const *solutionChar = (solution1).c_str();
         int is_sent = send(client_socket, solutionChar, sizeLine, 0);
