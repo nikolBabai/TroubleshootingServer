@@ -66,7 +66,7 @@ public:
             State<T> *prev = step->getCameFRom();
             string s = getDirection(step, prev);
             solutionMatrix = s + solutionMatrix;
-            solutionMatrix = "(" + to_string(step->getTrailCost()) + ")" + solutionMatrix;
+            solutionMatrix = "(" + to_string((int)step->getTrailCost()) + ")" + solutionMatrix;
             solutionMatrix = ", " + solutionMatrix;
             step = step->getCameFRom();
         }

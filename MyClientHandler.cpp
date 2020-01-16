@@ -45,9 +45,11 @@ void MyClientHandler::handleClient(int client_socket) {
         // there is a solution - returning it to the client
         std::cout << "there is a solution" << endl;
         string sol = cm->getSolution(megaLine);
-        std::cout << sol << endl;
+       // std::cout << sol << endl;
         sizeLine = sol.length();
+        std::cout << sizeLine << endl;
         char const *solution = (sol).c_str();
+        std::cout << solution << endl;
         send(client_socket, solution, sizeLine, 0);
     } else {
         std::cout << "there is'nt a solution" << endl;
@@ -59,9 +61,11 @@ void MyClientHandler::handleClient(int client_socket) {
         } else {
             cm->saveSolution(megaLine, &solution1);
         }
-        sizeLine = solution1.length();
+        sizeLine = solution1.size();
+        std::cout << sizeLine << endl;
         // returning to the client the solution
         char const *solutionChar = (solution1).c_str();
+        std::cout << solutionChar << endl;
         int is_sent = send(client_socket, solutionChar, sizeLine, 0);
         if (is_sent == -1) {
             std::cout << "Error sending message reveres" << std::endl;

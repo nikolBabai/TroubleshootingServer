@@ -27,8 +27,8 @@ public:
     }
 
     void saveToFile (string key, solution *obj) {
-        cout<<"test save to file:";
-        cout<<*obj<<endl;
+        //cout<<"test save to file:";
+        //cout<<*obj<<endl;
         ofstream file_obj;
         std::hash<std::string>hasher;
         long hashed= hasher(key);
@@ -42,7 +42,7 @@ public:
 
     void saveSolution(string key, solution *obj) {
         solution s = *obj;
-        cout<<"the solution was saved "+s<<endl;
+       // cout<<"the solution was saved "+s<<endl;
         insert(key, *obj);
     }
     solution *readFromFile(string key) {
@@ -66,6 +66,12 @@ public:
 
     }
     bool isSolutionExist(string key) {
+        /*
+        std::hash<std::string>hasher;
+        long hashed= hasher(key);
+        string hashString= to_string(hashed);
+            hashString += ".txt";
+        return  fexists(hashString);*/
         return dataContaines(this->problems, key);
     }
     solution getSolution(string key) {
@@ -95,6 +101,10 @@ public:
             }
         }
         return false;
+    }
+    bool fexists(const std::string& filename) {
+        std::ifstream ifile(filename.c_str());
+        return (bool)ifile;
     }
 };
 
