@@ -32,6 +32,8 @@ public:
     string edit(string s);
 
     MatrixMySearch* buildMatrix(int rows, int cols);
+
+    void deleteDeque(deque<string> *deque);
 };
 
 

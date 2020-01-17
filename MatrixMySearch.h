@@ -43,6 +43,8 @@ public:
     std::pair<int, int> getLocationInSearchable(State<Point> *state);
 
     bool isValidState(State<Point> *s);
+
+    string noPath();
 };
 
 #endif //EXX4_MATRIXMYSEARCH_H

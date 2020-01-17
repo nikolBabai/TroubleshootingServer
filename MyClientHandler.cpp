@@ -18,6 +18,7 @@ void MyClientHandler::handleClient(int client_socket) {
     string line = "";
     char buffer[1] = {0};
     int flag = 1;
+    deleteDeque(&this->dequeStrings);
     while (true) {
         while (flag) {
             ::read(client_socket, buffer, 1);
@@ -56,8 +57,9 @@ void MyClientHandler::handleClient(int client_socket) {
     } else {
         std::cout << "there is'nt a solution" << endl;
         // there is'nt a solution - solving the problem, saving it in the cache
-        string solution1 = solver->solve(matrixProb);
-        if (solution1 == "") {
+        string solution1  = "";
+        solution1 = solver->solve(matrixProb);
+        if (solution1.length() == 0) {
             std::cout << "there is'nt a solution to the problem" << endl;
             solution1 = "there is'nt a solution to the problem";
         } else {
@@ -110,5 +112,14 @@ MatrixMySearch *MyClientHandler::buildMatrix(int rows, int cols) {
     //Point *start, Point *destination, int rows, int columns, deque<string> dequeStrings);
     const int r = rows;
     const int c = cols;
-    return (new MatrixMySearch(r, c, this->dequeStrings));
+    MatrixMySearch *m = (new MatrixMySearch(r, c, this->dequeStrings));
+    // delete the deque
+   // deleteDeque(this->dequeStrings);
+    return m;
+}
+
+void MyClientHandler::deleteDeque(deque<string> *deque) {
+    while (deque->size() > 0) {
+        deque->pop_front();
+    }
 }

@@ -13,6 +13,7 @@ using namespace std;
 
 template<class solution, class T>
 class CommonSearcher : public Searcher<solution, T> {
+    /**
 public:
     class MyComperator {
     public:
@@ -25,6 +26,7 @@ protected:
     priority_queue<State<T> *, vector<State<T> *>, MyComperator> openPriority_queue;
     // Searchable<T> *searchable1;
     int evaluatedNodes = 0;
+     **/
 public:
     CommonSearcher() {}
 
@@ -40,7 +42,7 @@ public:
     //};
 
     virtual ~CommonSearcher() {}
-
+/**
     int getNumberOfNodesEvaluated() override {
         return this->evaluatedNodes;
     }
@@ -54,8 +56,8 @@ public:
         }
         return newQueqe;
     }
-
-    string backTrace(State<T> *step) {
+**/
+    solution backTrace(State<T> *step) {
         cout << "trail cost is : ";
         cout << step->getTrailCost() << endl;
         // return the steps we did to get to this goal

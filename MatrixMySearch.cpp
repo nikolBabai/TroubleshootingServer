@@ -142,3 +142,6 @@ void MatrixMySearch::initializeStates() {
     this->goalState = new State<Point>(*this->destination, costDest, costDest);
 }
 
+string MatrixMySearch::noPath() {
+    return "";
+}

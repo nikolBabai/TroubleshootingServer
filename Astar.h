@@ -8,10 +8,10 @@
 #include "CommonSearcher.h"
 #include <algorithm>
 
-template<typename T>
-class Astar : public CommonSearcher<string, T> {
+template<class T, class solution>
+class Astar : public CommonSearcher<solution, T> {
 
-    class ComparatorAStar : CommonSearcher<string, T>::MyComperator {
+    class ComparatorAStar {
     public:
         virtual bool operator()(State<T> *left, State<T> *right) {
             double F_L = left->getTrailCost() + left->getHeuristic();
@@ -21,34 +21,42 @@ class Astar : public CommonSearcher<string, T> {
     };
 
 private:
+    /**
     priority_queue<State<T> *, vector<State<T> *>, ComparatorAStar> openPriority_queue;
     vector<State<T> *> closed;
     vector<State<T> *> openCopy;
+     **/
+    int evaluatedNodes = 0;
 public:
-    string search(Searchable<T> *searchable) override {
+    solution search(Searchable<T> *searchable) override {
+        // fields
+        priority_queue<State<T> *, vector<State<T> *>, ComparatorAStar> openPriority_queue;
+        vector<State<T> *> closed;
+        vector<State<T> *> openCopy;
+
         this->setSearchable(searchable);
         State<T> *startState = searchable->getInitialeState();
         State<T> *goalState = searchable->getGoalState();
         //push the init state to queue
-        enterToOpen(startState);
-        while (!this->openPriority_queue.empty()) {
+        enterToOpen(startState, &openPriority_queue, &openCopy);
+        while (!openPriority_queue.empty()) {
             //current is start state
-            State<T> *currentState = this->openPriority_queue.top();
+            State<T> *currentState = openPriority_queue.top();
             openPriority_queue.pop();
-            deleteFromOpen(currentState);
+            deleteFromOpen(currentState, &openCopy);
             this->evaluatedNodes++;
             if ((*currentState).Equals(searchable->getGoalState())) {
                 return this->backTrace(currentState);
             }
-            this->closed.push_back(currentState);
+            closed.push_back(currentState);
             list<State<T> *> neighbours = searchable->createSuccessors(currentState);
             for (State<T> *neighbour: neighbours) {
                 double possible_Trail = currentState->getTrailCost() + neighbour->getCost();
                 if (!dataContaines(openCopy, neighbour) && !dataContaines(closed, neighbour)) {
-                    notInOpenClose(neighbour, currentState, possible_Trail);
+                    notInOpenClose(neighbour, currentState, possible_Trail, &openPriority_queue, &openCopy);
                     continue;
                 } else if (possible_Trail < neighbour->getTrailCost()) {
-                    improvePath(neighbour, currentState, possible_Trail);
+                    improvePath(neighbour, currentState, possible_Trail, &openPriority_queue);
                     continue;
                 }
             }
@@ -57,25 +65,34 @@ public:
         return "";
     }
 
-    void improvePath(State<T> *neighbour, State<T> *currentState, double possible_Trail) {
+    int getNumberOfNodesEvaluated() override {
+        return this->evaluatedNodes;
+    }
+
+    void improvePath(State<T> *neighbour, State<T> *currentState, double possible_Trail,
+                     priority_queue<State<T> *, vector<State<T> *>, ComparatorAStar> *openPriority_queue) {
         State<T> *goalState = this->getSearchable()->getGoalState();
         neighbour->setCameFRom(currentState);
         neighbour->setTrailCost(possible_Trail);
         setHeuristic(neighbour, goalState);
-        openPriority_queue = updatePriorityQueqe(openPriority_queue);
+        *openPriority_queue = updatePriorityQueqe(*openPriority_queue);
     }
 
-    void notInOpenClose(State<T> *neighbour, State<T> *currentState, double possible_Trail) {
+    void notInOpenClose(State<T> *neighbour, State<T> *currentState, double possible_Trail,
+                        priority_queue<State<T> *, vector<State<T> *>, ComparatorAStar> *openPriority_queue,
+                        vector<State<T> *> *openCopy) {
         State<T> *goalState = this->getSearchable()->getGoalState();
         neighbour->setCameFRom(currentState);
         neighbour->setTrailCost(possible_Trail);
         setHeuristic(neighbour, goalState);
-        enterToOpen(neighbour);
+        enterToOpen(neighbour, openPriority_queue, openCopy);
     }
 
-    void enterToOpen(State<T> *neighbour) {
-        openPriority_queue.push(neighbour);
-        openCopy.push_back(neighbour);
+    void enterToOpen(State<T> *neighbour,
+                     priority_queue<State<T> *, vector<State<T> *>, ComparatorAStar> *openPriority_queue,
+                     vector<State<T> *> *openCopy) {
+        openPriority_queue->push(neighbour);
+        openCopy->push_back(neighbour);
     }
 
     bool dataContaines(vector<State<T> *> data, State<T> *state) {
@@ -87,10 +104,10 @@ public:
         return false;
     }
 
-    void deleteFromOpen(State<T> *cur) {
-        auto position = find(openCopy.begin(), openCopy.end(), cur);
-        if (position != openCopy.end()) {// == myVector.end() means the element was not found
-            openCopy.erase(position);
+    void deleteFromOpen(State<T> *cur, vector<State<T> *> *openCopy) {
+        auto position = find(openCopy->begin(), openCopy->end(), cur);
+        if (position != openCopy->end()) {// == myVector.end() means the element was not found
+            openCopy->erase(position);
         }
     }
 

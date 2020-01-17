@@ -23,6 +23,7 @@ public:
     void setSearchable(Searchable<T> *searchableIn) {
          this->searchable1 = searchableIn;
     };
+
 };
 
 #endif //EXX4_SEARCHER_H

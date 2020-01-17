@@ -7,30 +7,41 @@
 
 #include "CommonSearcher.h"
 
-template<class T>
-class BestFirstSearch : public CommonSearcher<string, T> {
+template<class T, class solution>
+class BestFirstSearch : public CommonSearcher<solution, T> {
+public:
+    class MyComperator {
+    public:
+        bool operator()(State<T> *left, State<T> *right) {
+            return (left->getTrailCost()) > right->getTrailCost();
+        }
+    };
 private:
+    int evaluatedNodes = 0;
+    /**
+    priority_queue<State<T> *, vector<State<T> *>, MyComperator> openPriority_queue;
     vector<State<T> *> closed;
     vector<State<T> *> statesInOpenPriority;
-
+     **/
 public:
+    /**
     int openListSize() {
         return this->openPriority_queue.size();
+    }**/
+
+    void addToOpenList(State<T> *state, priority_queue<State<T> *, vector<State<T> *>, MyComperator> *openPriority_queue, vector<State<T> *> *statesInOpenPriority) {
+        openPriority_queue->push(state);
+        statesInOpenPriority->push_back(state);
     }
 
-    void addToOpenList(State<T> *state) {
-        this->openPriority_queue.push(state);
-        statesInOpenPriority.push_back(state);
-    }
-
-    State<T> *popOpenList() {
+    State<T> *popOpenList(priority_queue<State<T> *, vector<State<T> *>, MyComperator> *openPriority_queue) {
         this->evaluatedNodes++;
-        State<T> *topItem = this->openPriority_queue.top();
-        this->openPriority_queue.pop();
+        State<T> *topItem = openPriority_queue->top();
+        openPriority_queue->pop();
         return topItem;
     }
 
-    bool openContaines(State<T> *state) {
+    bool openContaines(State<T> *state, vector<State<T> *> statesInOpenPriority) {
         for (auto n: statesInOpenPriority) {
             if (state->Equals(n)) {
                 return true;
@@ -39,11 +50,17 @@ public:
         return false;
     }
 
-    string search(Searchable<T> *searchable) {
+    solution search(Searchable<T> *searchable) {
+        // fields
+        priority_queue<State<T> *, vector<State<T> *>, MyComperator> openPriority_queue;
+       // int evaluatedNodes = 0;
+        vector<State<T> *> closed;
+        vector<State<T> *> statesInOpenPriority;
+
         this->setSearchable(searchable);
-        addToOpenList(searchable->getInitialeState());
-        while (this->openListSize() > 0) {
-            State<T> *n = this->popOpenList();
+        addToOpenList(searchable->getInitialeState(), &openPriority_queue, &statesInOpenPriority);
+        while (openPriority_queue.size() > 0) {
+            State<T> *n = this->popOpenList(&openPriority_queue);
             closed.push_back(n);
             if ((*n).Equals(searchable->getGoalState())) {
                 // return the steps we did to get to this goal
@@ -52,24 +69,24 @@ public:
             // createSuccessors(n) returns a list of states with n as a parent
             list<State<T> *> successors = searchable->createSuccessors(n);
             for (State<T> *s : successors) {
-                if (!(closedCOntaines(s)) && !this->openContaines(s)) {
+                if (!(closedCOntaines(s, closed)) && !openContaines(s, statesInOpenPriority)) {
                     s->setCameFRom(n);
                     s->setTrailCost(n->getTrailCost() + s->getCost());
-                    addToOpenList(s);
+                    addToOpenList(s, &openPriority_queue, &statesInOpenPriority);
                 } else {
                     // check if the path from n is better than the old path
                     double sTrailCost = s->getTrailCost();
                     double errowToState = s->getCost();
                     double newTrailCost = n->getTrailCost() + errowToState;
                     if (newTrailCost < sTrailCost) {
-                        if (!this->openContaines(s)) {
+                        if (!openContaines(s, statesInOpenPriority)) {
                             // adding to open list
-                            addToOpenList(s);
+                            addToOpenList(s, &openPriority_queue, &statesInOpenPriority);
                         } else {
                             // updating the cameFrom
                             s->setCameFRom(n);
                             s->setTrailCost(newTrailCost);
-                            this->openPriority_queue = this->updatePriorityQueqe(this->openPriority_queue);
+                            openPriority_queue = updatePriorityQueqe(openPriority_queue);
                         }
 
                     }
@@ -80,13 +97,27 @@ public:
         return "";
     }
 
-    bool closedCOntaines(State<T> *s) {
+    bool closedCOntaines(State<T> *s, vector<State<T> *> closed) {
         for (auto n: closed) {
             if (s->Equals(n)) {
                 return true;
             }
         }
         return false;
+    }
+
+    int getNumberOfNodesEvaluated() override {
+        return this->evaluatedNodes;
+    }
+
+    priority_queue<State<T> *, vector<State<T> *>, MyComperator>
+    updatePriorityQueqe(priority_queue<State<T> *, vector<State<T> *>, MyComperator> enteredQueqe) {
+        priority_queue<State<T> *, vector<State<T> *>, MyComperator> newQueqe;
+        while (enteredQueqe.size() > 0) {
+            newQueqe.push(enteredQueqe.top());
+            enteredQueqe.pop();
+        }
+        return newQueqe;
     }
 /*
     string backTrace(State<T> *step) {

@@ -54,10 +54,10 @@ namespace boot {
 
         void part3() {
             // building the searcher
-           //CommonSearcher<string, Point> *commonSearcher = new BFS<Point>();
-            CommonSearcher<string, Point> *commonSearcher = new BestFirstSearch<Point>();
-         //  CommonSearcher<string, Point> *commonSearcher = new DFS<Point>();
-         //    CommonSearcher<string, Point> *commonSearcher = new Astar<Point>();
+           CommonSearcher<string, Point> *commonSearcher = new BFS<Point, string>();
+            //CommonSearcher<string, Point> *commonSearcher = new BestFirstSearch<Point, string>();
+          // CommonSearcher<string, Point> *commonSearcher = new DFS<Point, string>();
+             //CommonSearcher<string, Point> *commonSearcher = new Astar<Point, string>();
 
             // building the solver
             Searcher<string, Point> *searcherBFS = commonSearcher;
