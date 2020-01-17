@@ -133,7 +133,7 @@ public:
         }
         return newQueqe;
     }
-void* copy() {
+Astar* copy() {
     return new Astar();
     }
 };

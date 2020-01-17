@@ -11,6 +11,6 @@ template<class problem, class solution>
 class Solver {
 public:
     virtual solution solve(problem pb) = 0;
-    void * copy();
+    Solver * copy();
 };
 #endif //EXX4_SOLVER_H
