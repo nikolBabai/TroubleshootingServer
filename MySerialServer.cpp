@@ -41,7 +41,6 @@ void MySerialServer::start(int *sock, void *cli, socklen_t *clil, ClientHandler 
     tv.tv_usec = 0;
     tv.tv_sec = timeout_in_seconds;
     setsockopt(sock1, SOL_SOCKET, SO_RCVTIMEO, (const char *) &tv, sizeof tv);
-
     while (true) {
         cout << "in start" << endl;
         int client_socket1 = accept(sock1, &cli1, &clil1);

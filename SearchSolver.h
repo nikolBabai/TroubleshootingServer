@@ -18,6 +18,7 @@ public:
     }
 
     SearchSolver(Searcher<solution, T> *searcher) : searcher(searcher) {}
+    SearchSolver(const  SearchSolver &);
 
 };
 
