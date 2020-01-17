@@ -17,25 +17,21 @@
 
 using namespace std;
 
-template<class T, class solution>
-class BFS : public CommonSearcher<solution, T> {
+template<class T>
+class BFS : public CommonSearcher<string, T> {
 private:
-   int evaluatedNodes = 0;
+    vector<State<T> *> visited;
 public:
-    solution search(Searchable<T> *searchable) override {
-        // fields
-        vector<State<T> *> visited;
-        stack<State<T> *> openPriority_stack;
-
+    string search(Searchable<T> *searchable) override {
         this->setSearchable(searchable);
         visited.push_back(searchable->getInitialeState());
-        openPriority_stack.push(searchable->getInitialeState());
-        while (!openPriority_stack.empty()) {
-            State<T> *curState = openPriority_stack.top();
+        this->openPriority_queue.push(searchable->getInitialeState());
+        while (!this->openPriority_queue.empty()) {
+            State<T> *curState = this->openPriority_queue.top();
             if ((*curState).Equals(searchable->getGoalState())) {
                 return this->backTrace(curState);
             }
-            openPriority_stack.pop();
+            this->openPriority_queue.pop();
             // entering the successors to the priority list too
             list<State<T> *> successors = searchable->createSuccessors(curState);
             for (State<T> *n: successors) {
@@ -43,7 +39,7 @@ public:
                 // if we didn't visit in this state before
                 if (iter == visited.end()) {
                     visited.push_back(n);
-                    openPriority_stack.push(n);
+                    this->openPriority_queue.push(n);
                     n->setCameFRom(curState);
                     n->setTrailCost(curState->getTrailCost() + n->getCost());
                     // updating the number of states we visited in
@@ -54,11 +50,10 @@ public:
         // if there is no solution
         return "";
     }
-
-
-    int getNumberOfNodesEvaluated() override {
-        return this->evaluatedNodes;
-    }};
+    void* copy() {
+        return new BFS();
+    }
+};
 
 #endif //EXX4_BFS_H
 

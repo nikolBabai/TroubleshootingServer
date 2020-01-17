@@ -12,12 +12,10 @@
 
 using namespace std;
 
-template<class T, class solution>
-class DFS : public CommonSearcher<solution, T> {
-private:
-    int evaluatedNodes = 0;
+template<class T>
+class DFS : public CommonSearcher<string, T> {
 public:
-    solution search(Searchable<T> *searchable) override {
+    string search(Searchable<T> *searchable) override {
         int numEvaluatedNodes = 0;
         vector<State<T> *> visited;
         stack<State<T> *> openStack;
@@ -36,7 +34,8 @@ public:
 
             // ending condition to the recursion
             if ((*curState).Equals((this->getSearchable())->getGoalState())) {
-                return this->backTrace(curState);
+                string line = this->backTrace(curState);
+                return line;
             }
             // entering the successors to the priority list too
             list<State<T> *> successors = (this->getSearchable())->createSuccessors(curState);
@@ -62,9 +61,8 @@ public:
         }
         return false;
     }
-
-    int getNumberOfNodesEvaluated() override {
-        return this->evaluatedNodes;
+    void* copy() {
+        return new DFS();
     }
 };
 
