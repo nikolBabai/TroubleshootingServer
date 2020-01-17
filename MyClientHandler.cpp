@@ -125,6 +125,9 @@ void MyClientHandler::deleteDeque(deque<string> *deque) {
 }
 MyClientHandler:: MyClientHandler(const MyClientHandler & obj){
   dequeStrings = *(new  deque<string>());
-   solver = new SearchSolver<Searchable<Point>*, string, Point>((Searcher<string , Point> *)this->solver->copy());
+   solver = new SearchSolver<Searchable<Point>*, string, Point>((Searcher<string , Point> *)(obj.solver->copy()));
     cm =obj.cm->copy();
+}
+ClientHandler* MyClientHandler:: copy(){
+    return new MyClientHandler(*this);
 }

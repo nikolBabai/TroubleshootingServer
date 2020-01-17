@@ -23,8 +23,9 @@ public:
     int open(int port, ClientHandler *client_handler);
     void start(int *sock, void *cli, socklen_t *clil, ClientHandler *client_handler);
     virtual void stop();
-    virtual ~MyParallelServer();
+    virtual ~MyParallelServer(){}
     int getSocket();
+    int close(int);
     static void *  StarttheThreadClient(void* infoIn );
 };
 

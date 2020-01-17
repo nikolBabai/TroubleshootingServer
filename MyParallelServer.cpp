@@ -37,7 +37,7 @@ void  MyParallelServer::start(int *sock, void *cli, socklen_t *clil, ClientHandl
             }
             auto data = new Info();
             data->sockfd = client_socket1;
-            data->Client_Handler = client_handler;
+            data->Client_Handler =client_handler->copy();
             pthread_t threadOfClient;
             if (pthread_create(&threadOfClient, nullptr, StarttheThreadClient, data) > 0){
                 cerr<<"Could not create the thread"<<endl;
@@ -85,5 +85,8 @@ int MyParallelServer::open(int port, ClientHandler *client_handler) {
     close(socketfd); //closing the listening socket
 }
 void MyParallelServer::stop() {
+
+}
+int MyParallelServer:: close(int port) {
 
 }

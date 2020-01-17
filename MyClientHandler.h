@@ -34,6 +34,7 @@ public:
     MatrixMySearch* buildMatrix(int rows, int cols);
 
     void deleteDeque(deque<string> *deque);
+    ClientHandler* copy();
 };
 
 

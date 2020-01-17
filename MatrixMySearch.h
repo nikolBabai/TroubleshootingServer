@@ -45,6 +45,8 @@ public:
     bool isValidState(State<Point> *s);
 
     string noPath();
+    MatrixMySearch* copy(){
+    }
 };
 
 #endif //EXX4_MATRIXMYSEARCH_H

@@ -21,6 +21,7 @@ public:
     MyTestClientHandler(Solver<string , string> *solver);
 
     void handleClient(int client_socket);
+    MyTestClientHandler * copy(){}
 
 
 };

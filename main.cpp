@@ -17,6 +17,7 @@
 #include "Astar.h"
 #include "DFS.h"
 #include "BFS.h"
+#include "MyParallelServer.h"
 
 namespace boot {
     class Main {
@@ -48,13 +49,17 @@ namespace boot {
             Solver<string, string> *solver = new StringReverser<string, string>();
             CacheManager<string, string> *cacheManager = new FileCacheManager<string>(0);
             ClientHandler *clientHandler = new MyTestClientHandler(solver, cacheManager);
+            /*
             server_side::Server *serialServer = new MySerialServer();
             serialServer->open(8081, clientHandler);
+             */
+            server_side::Server * MyParallelServerIn = new MyParallelServer();
+            MyParallelServerIn->open(5600, clientHandler);
         }
 
         void part3() {
             // building the searcher
-           CommonSearcher<string, Point> *commonSearcher = new BFS<Point, string>();
+           CommonSearcher<string, Point> *commonSearcher = new Astar<Point, string>();
             //CommonSearcher<string, Point> *commonSearcher = new BestFirstSearch<Point, string>();
           // CommonSearcher<string, Point> *commonSearcher = new DFS<Point, string>();
              //CommonSearcher<string, Point> *commonSearcher = new Astar<Point, string>();
@@ -73,9 +78,12 @@ namespace boot {
             ClientHandler *clientHandler = new MyClientHandler(solver, cacheManager);
 
             // building serial Server
+            /*
             server_side::Server *serialServer = new MySerialServer();
             serialServer->open(5600, clientHandler);
-
+             */
+            server_side::Server * MyParallelServerIn = new MyParallelServer();
+            MyParallelServerIn->open(5600, clientHandler);
             /*
             // building the searchable
             MatrixMySearch *m = checkMatrix();
