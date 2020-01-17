@@ -17,21 +17,28 @@
 
 using namespace std;
 
-template<class T>
-class BFS : public CommonSearcher<string, T> {
+template<class T, class solution>
+class BFS : public CommonSearcher<solution, T> {
 private:
-    vector<State<T> *> visited;
+    int evaluatedNodes = 0;
 public:
-    string search(Searchable<T> *searchable) override {
+    solution search(Searchable<T> *searchable) override {
+        vector<State<T> *> visited;
+        stack<State<T>*> openStack;
         this->setSearchable(searchable);
+
         visited.push_back(searchable->getInitialeState());
-        this->openPriority_queue.push(searchable->getInitialeState());
-        while (!this->openPriority_queue.empty()) {
-            State<T> *curState = this->openPriority_queue.top();
+        openStack.push(searchable->getInitialeState());
+        while (!openStack.empty()) {
+            State<T> *curState = openStack.top();
+            openStack.pop();
+            this->evaluatedNodes++;
+            evaluatedNodes++;
+
             if ((*curState).Equals(searchable->getGoalState())) {
                 return this->backTrace(curState);
             }
-            this->openPriority_queue.pop();
+
             // entering the successors to the priority list too
             list<State<T> *> successors = searchable->createSuccessors(curState);
             for (State<T> *n: successors) {
@@ -39,11 +46,9 @@ public:
                 // if we didn't visit in this state before
                 if (iter == visited.end()) {
                     visited.push_back(n);
-                    this->openPriority_queue.push(n);
+                    openStack.push(n);
                     n->setCameFRom(curState);
                     n->setTrailCost(curState->getTrailCost() + n->getCost());
-                    // updating the number of states we visited in
-                    this->evaluatedNodes++;
                 }
             }
         }
@@ -52,6 +57,10 @@ public:
     }
    BFS* copy() {
         return new BFS();
+    }
+
+    int getNumberOfNodesEvaluated() override {
+        return this->evaluatedNodes;
     }
 };
 

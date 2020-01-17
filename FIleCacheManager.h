@@ -105,7 +105,7 @@ public:
         return (bool)ifile;
     }
    FileCacheManager* copy (){
-        return new FileCacheManager();
+        return new FileCacheManager(0);
     }
 };
 

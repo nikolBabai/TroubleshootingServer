@@ -16,5 +16,7 @@ public:
     virtual solution getSolution(problem p) = 0;
 
     virtual void saveSolution(problem p, solution *s) = 0;
+
+    virtual CacheManager* copy() = 0;
 };
 #endif //EXX4_CACHEMANAGER_H

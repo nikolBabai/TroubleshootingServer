@@ -12,10 +12,10 @@
 
 using namespace std;
 
-template<class T>
+template<class T, class solution>
 class DFS : public CommonSearcher<string, T> {
 public:
-    string search(Searchable<T> *searchable) override {
+    solution search(Searchable<T> *searchable) override {
         int numEvaluatedNodes = 0;
         vector<State<T> *> visited;
         stack<State<T> *> openStack;
@@ -63,6 +63,10 @@ public:
     }
   DFS* copy() {
         return new DFS();
+    }
+
+    int getNumberOfNodesEvaluated() override {
+        return this->evaluatedNodes;
     }
 };
 
