@@ -61,7 +61,7 @@ public:
         }
         return false;
     }
-    void* copy() {
+  DFS* copy() {
         return new DFS();
     }
 };

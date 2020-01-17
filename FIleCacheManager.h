@@ -104,7 +104,7 @@ public:
         std::ifstream ifile(filename.c_str());
         return (bool)ifile;
     }
-    void* copy (){
+   FileCacheManager* copy (){
         return new FileCacheManager();
     }
 };

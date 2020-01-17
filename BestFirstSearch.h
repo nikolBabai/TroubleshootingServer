@@ -126,7 +126,7 @@ public:
         }
     }
     */
-    void* copy() {
+   BestFirstSearch* copy() {
         return new BestFirstSearch();
     }
 };

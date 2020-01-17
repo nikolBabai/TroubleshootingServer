@@ -50,7 +50,7 @@ public:
         // if there is no solution
         return "";
     }
-    void* copy() {
+   BFS* copy() {
         return new BFS();
     }
 };
