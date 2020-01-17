@@ -76,7 +76,8 @@ public:
                 }
             }
         }
-
+        // if there is no solution
+        return "";
     }
 
     bool closedCOntaines(State<T> *s) {

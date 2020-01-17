@@ -47,6 +47,8 @@ public:
                 }
             }
         }
+        // if there is no solution
+        return "";
     }
 };
 

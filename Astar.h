@@ -53,6 +53,8 @@ public:
                 }
             }
         }
+        // if there is no solution
+        return "";
     }
 
     void improvePath(State<T> *neighbour, State<T> *currentState, double possible_Trail) {

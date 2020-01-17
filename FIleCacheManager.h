@@ -41,7 +41,7 @@ public:
 
 
     void saveSolution(string key, solution *obj) {
-        solution s = *obj;
+       // solution s = *obj;
        // cout<<"the solution was saved "+s<<endl;
         insert(key, *obj);
     }

@@ -23,6 +23,9 @@ void MyClientHandler::handleClient(int client_socket) {
             ::read(client_socket, buffer, 1);
             if (buffer[0] != '\n') {
                 line = line + buffer;
+                if (line.find("end") != std::string::npos) {
+                    flag = 0;
+                }
             } else {
                 flag = 0;
             }
@@ -39,13 +42,12 @@ void MyClientHandler::handleClient(int client_socket) {
     // building the problem - the matrix
     MatrixMySearch *matrixProb = buildProblem();
     //Searchable<Point> *matrix = &matrixProb;
-
     // checking if the problem has a solution in the cashManeger
     if (this->cm->isSolutionExist(megaLine)) {
         // there is a solution - returning it to the client
         std::cout << "there is a solution" << endl;
         string sol = cm->getSolution(megaLine);
-       // std::cout << sol << endl;
+        // std::cout << sol << endl;
         sizeLine = sol.length();
         std::cout << sizeLine << endl;
         char const *solution = (sol).c_str();
@@ -55,7 +57,7 @@ void MyClientHandler::handleClient(int client_socket) {
         std::cout << "there is'nt a solution" << endl;
         // there is'nt a solution - solving the problem, saving it in the cache
         string solution1 = solver->solve(matrixProb);
-        if (solution1 == ""){
+        if (solution1 == "") {
             std::cout << "there is'nt a solution to the problem" << endl;
             solution1 = "there is'nt a solution to the problem";
         } else {
