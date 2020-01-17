@@ -104,6 +104,9 @@ public:
         std::ifstream ifile(filename.c_str());
         return (bool)ifile;
     }
+    void* copy (){
+        return new FileCacheManager();
+    }
 };
 
 #endif //EXX4_FILECACHEMANAGER_H

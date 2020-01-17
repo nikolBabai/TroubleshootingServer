@@ -116,7 +116,9 @@ public:
         }
         return newQueqe;
     }
-
+void* copy() {
+    return new Astar();
+    }
 };
 
 #endif //EXX4_ASTAR_H

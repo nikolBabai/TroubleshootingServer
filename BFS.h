@@ -50,6 +50,9 @@ public:
         // if there is no solution
         return "";
     }
+    void* copy() {
+        return new BFS();
+    }
 };
 
 #endif //EXX4_BFS_H

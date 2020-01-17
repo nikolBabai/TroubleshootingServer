@@ -61,6 +61,9 @@ public:
         }
         return false;
     }
+    void* copy() {
+        return new DFS();
+    }
 };
 
 #endif //EXX4_DFS_H

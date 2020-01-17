@@ -126,7 +126,9 @@ public:
         }
     }
     */
-
+    void* copy() {
+        return new BestFirstSearch();
+    }
 };
 
 
