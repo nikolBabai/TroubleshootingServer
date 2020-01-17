@@ -66,18 +66,18 @@ public:
 
     }
     bool isSolutionExist(string key) {
-        /*
         std::hash<std::string>hasher;
         long hashed= hasher(key);
         string hashString= to_string(hashed);
             hashString += ".txt";
-        return  fexists(hashString);*/
+        return  fexists(hashString);
+        /*
         return dataContaines(this->problems, key);
+         */
     }
     solution getSolution(string key) {
         //type* objIn;// = new type()
         solution t;
-        if ( dataContaines(this->problems, key)) {
             std::hash<std::string>hasher;
             long hashed= hasher(key);
             string hashString= to_string(hashed);
@@ -85,10 +85,8 @@ public:
                 hashString += ".txt";
                 solution *objIn = readFromFile(hashString);
                 return *objIn;
-            }
             throw "key not exists both in cache and disk!"; // we should throw an exception here, but for Leetcode's sake
         }
-        return "";
     }
     virtual ~FileCacheManager() {
 
