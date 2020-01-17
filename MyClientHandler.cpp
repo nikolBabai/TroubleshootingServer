@@ -112,3 +112,10 @@ MatrixMySearch *MyClientHandler::buildMatrix(int rows, int cols) {
     const int c = cols;
     return (new MatrixMySearch(r, c, this->dequeStrings));
 }
+MyClientHandler:: MyClientHandler(const MyClientHandler & obj){
+  dequeStrings = *(new  deque<string>() );
+  //  SearchSolver(Searcher<solution, T> *searcher) : searcher(searcher) {}
+   solver = new SearchSolver<Searchable<Point>*();
+    cm =;
+
+}

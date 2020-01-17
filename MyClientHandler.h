@@ -24,7 +24,7 @@ private:
 public:
     // the server's problen is from type Searchable that is from type Point
     MyClientHandler(Solver<Searchable<Point>*, string> *solverIn, CacheManager<string, string> *cmIn);
-
+    MyClientHandler(const MyClientHandler &);
     void handleClient(int client_socket);
 
     MatrixMySearch* buildProblem();
