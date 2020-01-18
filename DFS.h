@@ -51,7 +51,7 @@ public:
             }
         }
         // if there is no solution
-        return "";
+        throw "no solution";
     }
 
     /** iterating over the visited vector in order to see if a certain state is already in it**/

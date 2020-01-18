@@ -63,7 +63,7 @@ public:
             }
         }
         // if there is no solution
-        return "";
+        throw "no solution";
     }
 
     int getNumberOfNodesEvaluated() override {
