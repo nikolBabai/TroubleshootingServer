@@ -58,12 +58,12 @@ void MyClientHandler::handleClient(int client_socket) {
         std::cout << "there is'nt a solution" << endl;
         // there is'nt a solution - solving the problem, saving it in the cache
         string solution1  = "";
-        solution1 = solver->solve(matrixProb);
-        if (solution1.length() == 0) {
+        try {
+            solution1 = solver->solve(matrixProb);
+            cm->saveSolution(megaLine, &solution1);
+        } catch (const char* e) {
             std::cout << "there is'nt a solution to the problem" << endl;
             solution1 = "there is'nt a solution to the problem";
-        } else {
-            cm->saveSolution(megaLine, &solution1);
         }
         sizeLine = solution1.size();
         std::cout << sizeLine << endl;

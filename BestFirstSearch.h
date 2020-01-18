@@ -95,7 +95,7 @@ public:
             }
         }
         // if there is no solution
-        return "";
+        throw "no solution";
     }
 
     bool closedCOntaines(State<T> *s, vector<State<T> *> closed) {
