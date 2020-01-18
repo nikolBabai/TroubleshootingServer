@@ -29,6 +29,7 @@ private:
     int evaluatedNodes = 0;
 public:
     solution search(Searchable<T> *searchable) override {
+        evaluatedNodes = 0;
         // fields
         priority_queue<State<T> *, vector<State<T> *>, ComparatorAStar> openPriority_queue;
         vector<State<T> *> closed;

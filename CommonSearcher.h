@@ -58,7 +58,7 @@ public:
     }
 **/
     solution backTrace(State<T> *step) {
-        cout << "trail cost is : ";
+        cout << "***trail cost is : ";
         cout << step->getTrailCost() << endl;
         // return the steps we did to get to this goal
         string solutionMatrix = "";
@@ -73,7 +73,7 @@ public:
             step = step->getCameFRom();
         }
         solutionMatrix = &solutionMatrix[2];
-        cout << "number of nodes evaluated: ";
+        cout << "***number of nodes evaluated: ";
         cout << this->getNumberOfNodesEvaluated() << endl;
         return solutionMatrix;
     }

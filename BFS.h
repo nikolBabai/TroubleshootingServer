@@ -14,26 +14,28 @@
 #include "CommonSearcher.h"
 #include <iostream>
 #include <algorithm>
+#include "queue"
 
 using namespace std;
 
 template<class T, class solution>
 class BFS : public CommonSearcher<solution, T> {
 private:
-    int evaluatedNodes = 0;
+    int numevaluatedNodes = 0;
 public:
     solution search(Searchable<T> *searchable) override {
+        numevaluatedNodes = 0;
         vector<State<T> *> visited;
-        stack<State<T>*> openStack;
+        queue<State<T>*> openQueue;
         this->setSearchable(searchable);
 
         visited.push_back(searchable->getInitialeState());
-        openStack.push(searchable->getInitialeState());
-        while (!openStack.empty()) {
-            State<T> *curState = openStack.top();
-            openStack.pop();
-            this->evaluatedNodes++;
-            evaluatedNodes++;
+        openQueue.push(searchable->getInitialeState());
+        while (!openQueue.empty()) {
+            State<T> *curState = openQueue.front();
+            openQueue.pop();
+            numevaluatedNodes++;
+            visited.push_back(curState);
 
             if ((*curState).Equals(searchable->getGoalState())) {
                 return this->backTrace(curState);
@@ -46,7 +48,7 @@ public:
                 // if we didn't visit in this state before
                 if (iter == visited.end()) {
                     visited.push_back(n);
-                    openStack.push(n);
+                    openQueue.push(n);
                     n->setCameFRom(curState);
                     n->setTrailCost(curState->getTrailCost() + n->getCost());
                 }
@@ -60,7 +62,7 @@ public:
     }
 
     int getNumberOfNodesEvaluated() override {
-        return this->evaluatedNodes;
+        return this->numevaluatedNodes;
     }
 };
 

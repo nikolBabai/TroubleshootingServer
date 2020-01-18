@@ -13,10 +13,12 @@
 using namespace std;
 
 template<class T, class solution>
-class DFS : public CommonSearcher<string, T> {
+class DFS : public CommonSearcher<solution, T> {
+private:
+    int numEvaluatedNodes = 0;
 public:
     solution search(Searchable<T> *searchable) override {
-        int numEvaluatedNodes = 0;
+        numEvaluatedNodes = 0;
         vector<State<T> *> visited;
         stack<State<T> *> openStack;
         this->setSearchable(searchable);
@@ -29,13 +31,13 @@ public:
             State<T> *curState = openStack.top();
             openStack.pop();
             // updating the number of states we visited in
-            this->evaluatedNodes++;
+           // this->evaluatedNodes++;
             numEvaluatedNodes++;
+            visited.push_back(curState);
 
             // ending condition to the recursion
             if ((*curState).Equals((this->getSearchable())->getGoalState())) {
-                string line = this->backTrace(curState);
-                return line;
+                return this->backTrace(curState);
             }
             // entering the successors to the priority list too
             list<State<T> *> successors = (this->getSearchable())->createSuccessors(curState);
@@ -66,7 +68,7 @@ public:
     }
 
     int getNumberOfNodesEvaluated() override {
-        return this->evaluatedNodes;
+        return this->numEvaluatedNodes;
     }
 };
 

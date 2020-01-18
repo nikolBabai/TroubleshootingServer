@@ -51,10 +51,10 @@ public:
         file_obj.open(key);
         while(( file_obj.peek() != EOF )){
             getline(file_obj,STRING);
-            cout<<STRING;
+           // cout<<STRING;
         }
         file_obj.close();
-        std::cout<<"here"<<endl;
+        //std::cout<<"here"<<endl;
         return new string (STRING);
     }
 

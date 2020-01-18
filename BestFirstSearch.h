@@ -51,6 +51,7 @@ public:
     }
 
     solution search(Searchable<T> *searchable) {
+        evaluatedNodes = 0;
         // fields
         priority_queue<State<T> *, vector<State<T> *>, MyComperator> openPriority_queue;
        // int evaluatedNodes = 0;
