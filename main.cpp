@@ -78,12 +78,12 @@ namespace boot {
             ClientHandler *clientHandler = new MyClientHandler(solver, cacheManager);
 
             // building serial Server
-            server_side::Server *serialServer = new MySerialServer();
-            serialServer->open(5600, clientHandler);
-             /**
+            //server_side::Server *serialServer = new MySerialServer();
+            //serialServer->open(5600, clientHandler);
+
             server_side::Server * MyParallelServerIn = new MyParallelServer();
             MyParallelServerIn->open(5600, clientHandler);
-            **//*
+            /*
             // building the searchable
             MatrixMySearch *m = checkMatrix();
             // solving the problem
