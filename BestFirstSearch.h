@@ -18,17 +18,7 @@ public:
     };
 private:
     int evaluatedNodes = 0;
-    /**
-    priority_queue<State<T> *, vector<State<T> *>, MyComperator> openPriority_queue;
-    vector<State<T> *> closed;
-    vector<State<T> *> statesInOpenPriority;
-     **/
 public:
-    /**
-    int openListSize() {
-        return this->openPriority_queue.size();
-    }**/
-
     void addToOpenList(State<T> *state, priority_queue<State<T> *, vector<State<T> *>, MyComperator> *openPriority_queue, vector<State<T> *> *statesInOpenPriority) {
         openPriority_queue->push(state);
         statesInOpenPriority->push_back(state);
@@ -120,44 +110,7 @@ public:
         }
         return newQueqe;
     }
-/*
-    string backTrace(State<T> *step) {
-        // return the steps we did to get to this goal
-        string solutionMatrix = "";
-        State<T> *start = this->getSearchable()->getInitialeState();
-        // checking if we arrived to the start state
-        while (!step->Equals(start)) {
-            State<T> *prev = step->getCameFRom();
-            string s = getDirection(step, prev);
-            solutionMatrix = s + solutionMatrix;
-            solutionMatrix = ", " + solutionMatrix;
-            step = step->getCameFRom();
-        }
-        solutionMatrix = &solutionMatrix[2];
-        return solutionMatrix;
-    }
 
-    string getDirection(State<T> *step, State<T> *prev) {
-        std::pair<int, int> stepDirection = this->searchable1->getLocationInSearchable(step);
-        std::pair<int, int> prevDirection = this->searchable1->getLocationInSearchable(prev);
-
-        int xStep = stepDirection.first;
-        int yStep = stepDirection.second;
-        int xPrev = prevDirection.first;
-        int yPrev = prevDirection.second;
-
-        // checking the direction it came from
-        if (xStep > xPrev) {
-            return "Down";
-        } else if (xStep < xPrev) {
-            return "Up";
-        } else if (yStep > yPrev) {
-            return "Right";
-        } else if (yStep > yPrev) {
-            return "Left";
-        }
-    }
-    */
    BestFirstSearch* copy() {
         return new BestFirstSearch();
     }

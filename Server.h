@@ -31,14 +31,4 @@ namespace server_side {
 
     };
 }
-/*
-    namespace boot {
-        class Main {
-        public:
-            int main(int port) {
-            };
-        };
-    }
- */
-
 #endif //EXX4_SERVER_H

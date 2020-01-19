@@ -93,9 +93,11 @@ int MySerialServer::open(int port, ClientHandler *client_handler) {
     t1.join();
     cout << "in open" << endl;
 
-    close(socketfd); //closing the listening socket
+    //closing the listening socket
+    close(socketfd);
 }
 
-int MySerialServer::close(int port) {
-
+int MySerialServer::close(int socketfd) {
+    close(socketfd);
+    return 1;
 }

@@ -31,7 +31,6 @@ public:
             State<T> *curState = openStack.top();
             openStack.pop();
             // updating the number of states we visited in
-           // this->evaluatedNodes++;
             numEvaluatedNodes++;
             visited.push_back(curState);
 

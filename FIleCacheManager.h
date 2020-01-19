@@ -27,8 +27,6 @@ public:
     }
 
     void saveToFile (string key, solution *obj) {
-        //cout<<"test save to file:";
-        //cout<<*obj<<endl;
         ofstream file_obj;
         std::hash<std::string>hasher;
         long hashed= hasher(key);
@@ -41,8 +39,6 @@ public:
 
 
     void saveSolution(string key, solution *obj) {
-       // solution s = *obj;
-       // cout<<"the solution was saved "+s<<endl;
         insert(key, *obj);
     }
     solution *readFromFile(string key) {
@@ -51,10 +47,8 @@ public:
         file_obj.open(key);
         while(( file_obj.peek() != EOF )){
             getline(file_obj,STRING);
-           // cout<<STRING;
         }
         file_obj.close();
-        //std::cout<<"here"<<endl;
         return new string (STRING);
     }
 
@@ -71,9 +65,6 @@ public:
         string hashString= to_string(hashed);
             hashString += ".txt";
         return  fexists(hashString);
-        /*
-        return dataContaines(this->problems, key);
-         */
     }
     solution getSolution(string key) {
         //type* objIn;// = new type()
@@ -85,7 +76,6 @@ public:
                 hashString += ".txt";
                 solution *objIn = readFromFile(hashString);
                 return *objIn;
-            throw "key not exists both in cache and disk!"; // we should throw an exception here, but for Leetcode's sake
         }
     }
     virtual ~FileCacheManager() {

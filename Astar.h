@@ -21,11 +21,6 @@ class Astar : public CommonSearcher<solution, T> {
     };
 
 private:
-    /**
-    priority_queue<State<T> *, vector<State<T> *>, ComparatorAStar> openPriority_queue;
-    vector<State<T> *> closed;
-    vector<State<T> *> openCopy;
-     **/
     int evaluatedNodes = 0;
 public:
     solution search(Searchable<T> *searchable) override {

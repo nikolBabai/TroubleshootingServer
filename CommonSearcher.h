@@ -33,30 +33,7 @@ public:
     virtual solution search(Searchable<T> *searchable) = 0;
 
 
-    //void setSearchable(Searchable<T>* searchableIN) {
-    //   this->searchable1 = searchableIN;
-    //}
-
-    //Searchable<T>* getSearchable() {
-    //   return this->searchable1;
-    //};
-
     virtual ~CommonSearcher() {}
-/**
-    int getNumberOfNodesEvaluated() override {
-        return this->evaluatedNodes;
-    }
-
-    priority_queue<State<T> *, vector<State<T> *>, MyComperator>
-    updatePriorityQueqe(priority_queue<State<T> *, vector<State<T> *>, MyComperator> enteredQueqe) {
-        priority_queue<State<T> *, vector<State<T> *>, MyComperator> newQueqe;
-        while (enteredQueqe.size() > 0) {
-            newQueqe.push(enteredQueqe.top());
-            enteredQueqe.pop();
-        }
-        return newQueqe;
-    }
-**/
     solution backTrace(State<T> *step) {
         cout << "***trail cost is : ";
         cout << step->getTrailCost() << endl;
