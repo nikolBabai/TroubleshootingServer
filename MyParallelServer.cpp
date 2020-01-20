@@ -7,16 +7,20 @@
 #include <thread>
 #include <strings.h>
 #include "MyParallelServer.h"
+
 struct threadInfo {
     int socket;
-    ClientHandler* Client_Handler_OfThread;
+    ClientHandler *Client_Handler_OfThread;
 };
 static int socketfd;
-void *  MyParallelServer::StarttheThreadClient(void* infoIn ){
-    auto info = (threadInfo*)infoIn ;
+
+void *MyParallelServer::StarttheThreadClient(void *infoIn) {
+    auto info = (threadInfo *) infoIn;
     info->Client_Handler_OfThread->handleClient(info->socket);
 }
-void  MyParallelServer::start(int *sock, void *cli, socklen_t *clil, ClientHandler *client_handler) {
+
+/** creating threads and solving the problems we get from the clients **/
+void MyParallelServer::start(int *sock, void *cli, socklen_t *clil, ClientHandler *client_handler) {
     while (true) {
         //waiting until connection
         // accepting a client
@@ -37,10 +41,10 @@ void  MyParallelServer::start(int *sock, void *cli, socklen_t *clil, ClientHandl
             }
             auto data = new Info();
             data->sockfd = client_socket1;
-            data->Client_Handler =client_handler->copy();
+            data->Client_Handler = client_handler->copy();
             pthread_t threadOfClient;
-            if (pthread_create(&threadOfClient, nullptr, StarttheThreadClient, data) > 0){
-                cerr<<"Could not create the thread"<<endl;
+            if (pthread_create(&threadOfClient, nullptr, StarttheThreadClient, data) > 0) {
+                cerr << "Could not create the thread" << endl;
                 exit(1);
             }
             thread_List.push_back(threadOfClient);
@@ -48,6 +52,8 @@ void  MyParallelServer::start(int *sock, void *cli, socklen_t *clil, ClientHandl
         }
     }
 }
+
+/** trying to connect to several clients**/
 int MyParallelServer::open(int port, ClientHandler *client_handler) {
     socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketfd < 0) {
@@ -84,9 +90,12 @@ int MyParallelServer::open(int port, ClientHandler *client_handler) {
     cout << "in open" << endl;
     close(socketfd); //closing the listening socket
 }
+
 void MyParallelServer::stop() {
 
 }
-int MyParallelServer:: close(int port) {
+
+/** clone **/
+int MyParallelServer::close(int port) {
 
 }

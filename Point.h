@@ -5,6 +5,8 @@
 #ifndef EXX4_POINT_H
 #define EXX4_POINT_H
 
+/** we use a point to be the generic of the states in the matrix, every state in the matrix is from type point
+ * because it has a clear location this way**/
 class Point {
 public:
     const int x;
@@ -28,4 +30,5 @@ public:
         return this->y;
     }
 };
+
 #endif //EXX4_POINT_H

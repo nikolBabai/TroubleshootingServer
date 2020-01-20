@@ -23,10 +23,12 @@ class BFS : public CommonSearcher<solution, T> {
 private:
     int numevaluatedNodes = 0;
 public:
+    /** looking for a path to the given goal state with the smallest cost **/
     solution search(Searchable<T> *searchable) override {
         numevaluatedNodes = 0;
         vector<State<T> *> visited;
-        queue<State<T>*> openQueue;
+        // we use queue in order to get the first element we entered
+        queue<State<T> *> openQueue;
         this->setSearchable(searchable);
 
         visited.push_back(searchable->getInitialeState());
@@ -57,9 +59,13 @@ public:
         // if there is no solution
         throw "no solution";
     }
-   BFS* copy() {
+
+    /** clone **/
+    BFS *copy() {
         return new BFS();
     }
+
+    /** returns the number of nodes we visited in the algorithm**/
 
     int getNumberOfNodesEvaluated() override {
         return this->numevaluatedNodes;

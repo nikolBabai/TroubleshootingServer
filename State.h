@@ -9,13 +9,15 @@
 
 using namespace std;
 
+/** holds information about the components in the searchable class**/
 template<class T>
 class State {
 private:
     T state;
     double cost;
     double trailCost = 0;
-    State<T> *cameFrom; double heuristic;
+    State<T> *cameFrom;
+    double heuristic;
 public:
     bool Equals(State<T> *s) {
         return state == s->getState();
@@ -55,11 +57,13 @@ public:
     T getState() {
         return this->state;
     }
-    double getHeuristic(){
-return this->heuristic;
+
+    double getHeuristic() {
+        return this->heuristic;
     }
-    void setHeuristic(double heuristic){
-        this->heuristic =heuristic;
+
+    void setHeuristic(double heuristic) {
+        this->heuristic = heuristic;
     }
 };
 

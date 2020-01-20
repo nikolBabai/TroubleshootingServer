@@ -8,6 +8,7 @@
 #include "Solver.h"
 #include "Searcher.h"
 
+/** this class implements the solver interface by getting a searcher and solving a problem from type searchable**/
 template<class problem, class solution, class T>
 class SearchSolver : public Solver<problem, solution> {
 private:
@@ -18,13 +19,17 @@ public:
     }
 
     SearchSolver(Searcher<solution, T> *searcher) : searcher(searcher) {}
-    SearchSolver(const  SearchSolver &obj){
+
+    SearchSolver(const SearchSolver &obj) {
         searcher = obj.searcher.copy();
     }
-    Searcher<solution, T> * getSearcher(){
+
+    Searcher<solution, T> *getSearcher() {
         return this->searcher;
     }
-    SearchSolver* copy(){
+
+    /** clone **/
+    SearchSolver *copy() {
         return new SearchSolver(searcher->copy());
     }
 

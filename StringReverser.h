@@ -7,13 +7,17 @@
 
 #include "string"
 #include "Solver.h"
+
 using namespace std;
+
 template<class problem, class solution>
-class StringReverser : public Solver<string , string> {
+class StringReverser : public Solver<string, string> {
 public:
-    string solve(string  s);
-   StringReverser* copy(){
+    string solve(string s);
+
+    StringReverser *copy() {
     }
+
     string reverseStr(string str);
 };
 

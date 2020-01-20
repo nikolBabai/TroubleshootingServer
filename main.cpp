@@ -48,7 +48,6 @@ namespace boot {
             // building serial Server
             server_side::Server * MyParallelServerIn = new MyParallelServer();
             MyParallelServerIn->open(port, clientHandler);
-
         }
     };
 

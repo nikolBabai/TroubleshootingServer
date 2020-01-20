@@ -13,7 +13,9 @@ private:
     Searchable<T> *searchable1;
 public:
     virtual solution search(Searchable<T> *searchable) = 0;
-    virtual  Searcher* copy()=0;
+
+    virtual Searcher *copy() = 0;
+
     virtual int getNumberOfNodesEvaluated() = 0;
 
     Searchable<T> *getSearchable() {
@@ -21,7 +23,7 @@ public:
     };
 
     void setSearchable(Searchable<T> *searchableIn) {
-         this->searchable1 = searchableIn;
+        this->searchable1 = searchableIn;
     };
 
 };

@@ -29,6 +29,8 @@ namespace server_side {
 
         virtual int close(int port) = 0;
 
+        virtual ~Server() = default;
+
     };
 }
 #endif //EXX4_SERVER_H

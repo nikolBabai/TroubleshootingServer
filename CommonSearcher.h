@@ -13,20 +13,6 @@ using namespace std;
 
 template<class solution, class T>
 class CommonSearcher : public Searcher<solution, T> {
-    /**
-public:
-    class MyComperator {
-    public:
-        bool operator()(State<T> *left, State<T> *right) {
-            return (left->getTrailCost()) > right->getTrailCost();
-        }
-    };
-
-protected:
-    priority_queue<State<T> *, vector<State<T> *>, MyComperator> openPriority_queue;
-    // Searchable<T> *searchable1;
-    int evaluatedNodes = 0;
-     **/
 public:
     CommonSearcher() {}
 
@@ -34,6 +20,8 @@ public:
 
 
     virtual ~CommonSearcher() {}
+
+    /** returning the trace staring from the initial state until the goal state**/
     solution backTrace(State<T> *step) {
         cout << "***trail cost is : ";
         cout << step->getTrailCost() << endl;
@@ -45,7 +33,7 @@ public:
             State<T> *prev = step->getCameFRom();
             string s = getDirection(step, prev);
             solutionMatrix = s + solutionMatrix;
-            solutionMatrix = "(" + to_string((int)step->getTrailCost()) + ")" + solutionMatrix;
+            solutionMatrix = "(" + to_string((int) step->getTrailCost()) + ")" + solutionMatrix;
             solutionMatrix = ", " + solutionMatrix;
             step = step->getCameFRom();
         }
@@ -55,6 +43,7 @@ public:
         return solutionMatrix;
     }
 
+    /** return the direction we need to move from a step to another **/
     string getDirection(State<T> *step, State<T> *prev) {
         std::pair<int, int> stepDirection = this->getSearchable()->getLocationInSearchable(step);
         std::pair<int, int> prevDirection = this->getSearchable()->getLocationInSearchable(prev);

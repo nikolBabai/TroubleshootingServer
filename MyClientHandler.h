@@ -13,28 +13,28 @@
 #include "State.h"
 #include "MatrixMySearch.h"
 
-//template<class problem, class solution>
 class MyClientHandler : public ClientHandler {
 private:
     deque<string> dequeStrings;
-    Solver<Searchable<Point>*, string> *solver;
+    Solver<Searchable<Point> *, string> *solver;
     CacheManager<string, string> *cm;
-    //MatrixMySearch matrix;
-    //string problemString = "";
 public:
     // the server's problen is from type Searchable that is from type Point
-    MyClientHandler(Solver<Searchable<Point>*, string> *solverIn, CacheManager<string, string> *cmIn);
+    MyClientHandler(Solver<Searchable<Point> *, string> *solverIn, CacheManager<string, string> *cmIn);
+
     MyClientHandler(const MyClientHandler &);
+
     void handleClient(int client_socket);
 
-    MatrixMySearch* buildProblem();
+    MatrixMySearch *buildProblem();
 
     string edit(string s);
 
-    MatrixMySearch* buildMatrix(int rows, int cols);
+    MatrixMySearch *buildMatrix(int rows, int cols);
 
     void deleteDeque(deque<string> *deque);
-    ClientHandler* copy();
+
+    ClientHandler *copy();
 };
 
 

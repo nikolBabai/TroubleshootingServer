@@ -7,6 +7,8 @@
 
 #include "CommonSearcher.h"
 
+/** searching algorithm - Best First Search uses an evaluation function to decide which adjacent is most
+ * promising and then explore. **/
 template<class T, class solution>
 class BestFirstSearch : public CommonSearcher<solution, T> {
 public:
@@ -16,14 +18,19 @@ public:
             return (left->getTrailCost()) > right->getTrailCost();
         }
     };
+
 private:
     int evaluatedNodes = 0;
 public:
-    void addToOpenList(State<T> *state, priority_queue<State<T> *, vector<State<T> *>, MyComperator> *openPriority_queue, vector<State<T> *> *statesInOpenPriority) {
+    /** entering a node to the priority queue and the vector**/
+    void
+    addToOpenList(State<T> *state, priority_queue<State<T> *, vector<State<T> *>, MyComperator> *openPriority_queue,
+                  vector<State<T> *> *statesInOpenPriority) {
         openPriority_queue->push(state);
         statesInOpenPriority->push_back(state);
     }
 
+    /** removing from the open list because we finished processing this node's information**/
     State<T> *popOpenList(priority_queue<State<T> *, vector<State<T> *>, MyComperator> *openPriority_queue) {
         this->evaluatedNodes++;
         State<T> *topItem = openPriority_queue->top();
@@ -31,6 +38,7 @@ public:
         return topItem;
     }
 
+    /** checking if a state is in the vector (meaning in the open priority queue)**/
     bool openContaines(State<T> *state, vector<State<T> *> statesInOpenPriority) {
         for (auto n: statesInOpenPriority) {
             if (state->Equals(n)) {
@@ -40,11 +48,12 @@ public:
         return false;
     }
 
+    /** looking for a path to the given goal state with the smallest cost **/
     solution search(Searchable<T> *searchable) {
         evaluatedNodes = 0;
         // fields
         priority_queue<State<T> *, vector<State<T> *>, MyComperator> openPriority_queue;
-       // int evaluatedNodes = 0;
+        // int evaluatedNodes = 0;
         vector<State<T> *> closed;
         vector<State<T> *> statesInOpenPriority;
 
@@ -88,6 +97,7 @@ public:
         throw "no solution";
     }
 
+    /** checking if a state is in the closed vector**/
     bool closedCOntaines(State<T> *s, vector<State<T> *> closed) {
         for (auto n: closed) {
             if (s->Equals(n)) {
@@ -97,10 +107,12 @@ public:
         return false;
     }
 
+    /** returns the number of nodes we visited in the algorithm**/
     int getNumberOfNodesEvaluated() override {
         return this->evaluatedNodes;
     }
 
+    /** updating the priority queue**/
     priority_queue<State<T> *, vector<State<T> *>, MyComperator>
     updatePriorityQueqe(priority_queue<State<T> *, vector<State<T> *>, MyComperator> enteredQueqe) {
         priority_queue<State<T> *, vector<State<T> *>, MyComperator> newQueqe;
@@ -111,7 +123,8 @@ public:
         return newQueqe;
     }
 
-   BestFirstSearch* copy() {
+    /** clone **/
+    BestFirstSearch *copy() {
         return new BestFirstSearch();
     }
 };

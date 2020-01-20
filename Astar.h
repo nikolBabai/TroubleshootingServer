@@ -8,6 +8,8 @@
 #include "CommonSearcher.h"
 #include <algorithm>
 
+/** starting from a specific starting state of a matrix, it aims to find a path to the given goal state having the
+ * smallest cost (least distance travelled, shortest time, etc.)**/
 template<class T, class solution>
 class Astar : public CommonSearcher<solution, T> {
 
@@ -23,6 +25,7 @@ class Astar : public CommonSearcher<solution, T> {
 private:
     int evaluatedNodes = 0;
 public:
+    /** looking for a path to the given goal state with the smallest cost **/
     solution search(Searchable<T> *searchable) override {
         evaluatedNodes = 0;
         // fields
@@ -52,6 +55,7 @@ public:
                     notInOpenClose(neighbour, currentState, possible_Trail, &openPriority_queue, &openCopy);
                     continue;
                 } else if (possible_Trail < neighbour->getTrailCost()) {
+                    // checking for an improvement
                     improvePath(neighbour, currentState, possible_Trail, &openPriority_queue);
                     continue;
                 }
@@ -61,10 +65,12 @@ public:
         throw "no solution";
     }
 
+    /** returns the number of nodes we visited in the algorithm**/
     int getNumberOfNodesEvaluated() override {
         return this->evaluatedNodes;
     }
 
+    /** improving the path by changing the came from state of a node**/
     void improvePath(State<T> *neighbour, State<T> *currentState, double possible_Trail,
                      priority_queue<State<T> *, vector<State<T> *>, ComparatorAStar> *openPriority_queue) {
         State<T> *goalState = this->getSearchable()->getGoalState();
@@ -74,6 +80,7 @@ public:
         *openPriority_queue = updatePriorityQueqe(*openPriority_queue);
     }
 
+    /** initializing a node after checking it's not in any vector/ priority queue**/
     void notInOpenClose(State<T> *neighbour, State<T> *currentState, double possible_Trail,
                         priority_queue<State<T> *, vector<State<T> *>, ComparatorAStar> *openPriority_queue,
                         vector<State<T> *> *openCopy) {
@@ -84,6 +91,7 @@ public:
         enterToOpen(neighbour, openPriority_queue, openCopy);
     }
 
+    /** entering a node to the priority queue**/
     void enterToOpen(State<T> *neighbour,
                      priority_queue<State<T> *, vector<State<T> *>, ComparatorAStar> *openPriority_queue,
                      vector<State<T> *> *openCopy) {
@@ -91,6 +99,7 @@ public:
         openCopy->push_back(neighbour);
     }
 
+    /** checking if a state is in the vector**/
     bool dataContaines(vector<State<T> *> data, State<T> *state) {
         for (auto n: data) {
             if (state->Equals(n)) {
@@ -100,6 +109,7 @@ public:
         return false;
     }
 
+    /** *removing a node from the vector*/
     void deleteFromOpen(State<T> *cur, vector<State<T> *> *openCopy) {
         auto position = find(openCopy->begin(), openCopy->end(), cur);
         if (position != openCopy->end()) {// == myVector.end() means the element was not found
@@ -107,6 +117,7 @@ public:
         }
     }
 
+    /** setting heuristic**/
     void setHeuristic(State<T> *neighbour, State<T> *goalState) {
         std::pair<int, int> direction = this->getSearchable()->getLocationInSearchable(neighbour);
 
@@ -120,6 +131,7 @@ public:
 
     }
 
+    /** updating the priority queue**/
     priority_queue<State<T> *, vector<State<T> *>, ComparatorAStar>
     updatePriorityQueqe(priority_queue<State<T> *, vector<State<T> *>, ComparatorAStar> enteredQueqe) {
         priority_queue<State<T> *, vector<State<T> *>, ComparatorAStar> newQueqe;
@@ -129,8 +141,10 @@ public:
         }
         return newQueqe;
     }
-Astar* copy() {
-    return new Astar();
+
+    /** clone **/
+    Astar *copy() {
+        return new Astar();
     }
 };
 

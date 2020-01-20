@@ -17,9 +17,11 @@ class DFS : public CommonSearcher<solution, T> {
 private:
     int numEvaluatedNodes = 0;
 public:
+    /** looking for a path to the given goal state with the smallest cost **/
     solution search(Searchable<T> *searchable) override {
         numEvaluatedNodes = 0;
         vector<State<T> *> visited;
+        // we use a stack so we will get the last element we entered
         stack<State<T> *> openStack;
         this->setSearchable(searchable);
         State<T> *startState = this->getSearchable()->getInitialeState();
@@ -62,10 +64,13 @@ public:
         }
         return false;
     }
-  DFS* copy() {
+
+    /**clone **/
+    DFS *copy() {
         return new DFS();
     }
 
+    /** returns the number of nodes we visited in the algorithm**/
     int getNumberOfNodesEvaluated() override {
         return this->numEvaluatedNodes;
     }

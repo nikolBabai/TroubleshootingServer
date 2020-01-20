@@ -30,6 +30,7 @@ void MySerialServer::start(ClientHandler *ch, int socketfd, sockaddr_in address)
 }
 **/
 
+/** creating thread and solving the problem we get from the client using the client handler**/
 void MySerialServer::start(int *sock, void *cli, socklen_t *clil, ClientHandler *client_handler) {
     //waiting until connection
     // accepting a client
@@ -55,6 +56,8 @@ void MySerialServer::start(int *sock, void *cli, socklen_t *clil, ClientHandler 
     }
 }
 
+/** trying to connect to a client**/
+/** creating thread and solving the problem we get from the client **/
 int MySerialServer::open(int port, ClientHandler *client_handler) {
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketfd < 0) {

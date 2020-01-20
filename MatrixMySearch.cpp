@@ -1,7 +1,6 @@
 //
 // Created by oem on 10/01/2020.
 //
-#include <iostream>
 #include "MatrixMySearch.h"
 #include "Point.h"
 

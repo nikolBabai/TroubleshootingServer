@@ -12,6 +12,10 @@ using namespace std;
 MyClientHandler::MyClientHandler(Solver<Searchable<Point> *, string> *solver,
                                  CacheManager<string, string> *cm) : solver(solver), cm(cm) {}
 
+/** read line by line
+//when getting to last two lines get the point x,y of the first
+//create searchable matrix
+//call matrix constructor with start point end point **/
 void MyClientHandler::handleClient(int client_socket) {
     std::size_t sizeLine = 0;
     string megaLine = "";
@@ -57,11 +61,11 @@ void MyClientHandler::handleClient(int client_socket) {
     } else {
         std::cout << "there is'nt a solution" << endl;
         // there is'nt a solution - solving the problem, saving it in the cache
-        string solution1  = "";
+        string solution1 = "";
         try {
             solution1 = solver->solve(matrixProb);
             cm->saveSolution(megaLine, &solution1);
-        } catch (const char* e) {
+        } catch (const char *e) {
             std::cout << "there is'nt a solution to the problem" << endl;
             solution1 = "there is'nt a solution to the problem";
         }
@@ -79,10 +83,7 @@ void MyClientHandler::handleClient(int client_socket) {
     }
 }
 
-//read line by line
-//when getthing to last two lines get the point x,y of the first
-//create searchable matrix
-//call matrix constructor with start point end point
+/** building Matrix class - it's the problen we need to solve in this class **/
 MatrixMySearch *MyClientHandler::buildProblem() {
     // minus 2 because we also have the start and end in the deque
     int rows = this->dequeStrings.size() - 2;
@@ -108,26 +109,30 @@ string MyClientHandler::edit(string s) {
     return s;
 }
 
+/** building a matrix **/
 MatrixMySearch *MyClientHandler::buildMatrix(int rows, int cols) {
-    //Point *start, Point *destination, int rows, int columns, deque<string> dequeStrings);
     const int r = rows;
     const int c = cols;
     MatrixMySearch *m = (new MatrixMySearch(r, c, this->dequeStrings));
-    // delete the deque
-   // deleteDeque(this->dequeStrings);
     return m;
 }
 
+/** deleting the elements in the deque**/
 void MyClientHandler::deleteDeque(deque<string> *deque) {
     while (deque->size() > 0) {
         deque->pop_front();
     }
 }
-MyClientHandler:: MyClientHandler(const MyClientHandler & obj){
-  dequeStrings = *(new  deque<string>());
-   solver = new SearchSolver<Searchable<Point>*, string, Point>((Searcher<string , Point> *)(obj.solver->copy()));
-    cm =obj.cm->copy();
+
+MyClientHandler::MyClientHandler(const MyClientHandler &obj) {
+    dequeStrings = *(new deque<string>());
+    solver = new SearchSolver<Searchable<Point> *, string, Point>((Searcher<string, Point> *) (obj.solver->copy()));
+    cm = obj.cm->copy();
 }
-ClientHandler* MyClientHandler:: copy(){
+
+/** clone **/
+ClientHandler *MyClientHandler::copy() {
     return new MyClientHandler(*this);
 }
+
+
