@@ -32,9 +32,11 @@ public:
         while (!step->Equals(start)) {
             State<T> *prev = step->getCameFRom();
             string s = getDirection(step, prev);
-            solutionMatrix = s + solutionMatrix;
-            solutionMatrix = "(" + to_string((int) step->getTrailCost()) + ")" + solutionMatrix;
-            solutionMatrix = ", " + solutionMatrix;
+            if (s != "NULL") {
+                solutionMatrix = s + solutionMatrix;
+                solutionMatrix = "(" + to_string((int) step->getTrailCost()) + ")" + solutionMatrix;
+                solutionMatrix = ", " + solutionMatrix;
+            }
             step = step->getCameFRom();
         }
         solutionMatrix = &solutionMatrix[2];
@@ -64,7 +66,7 @@ public:
             return "Left";
         } else {
             // never reached
-            return "";
+            return "NULL";
         }
     }
 
