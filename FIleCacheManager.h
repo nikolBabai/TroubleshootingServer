@@ -86,6 +86,8 @@ public:
             hashString += ".txt";
             solution *objIn = readFromFile(hashString);
             return *objIn;
+        } else {
+            return nullptr;
         }
     }
 

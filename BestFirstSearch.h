@@ -17,6 +17,8 @@ public:
         bool operator()(State<T> *left, State<T> *right) {
             return (left->getTrailCost()) > right->getTrailCost();
         }
+
+        virtual ~MyComperator() = default;
     };
 
 private:

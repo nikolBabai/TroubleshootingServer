@@ -62,6 +62,9 @@ public:
             return "Right";
         } else if (yStep > yPrev) {
             return "Left";
+        } else {
+            // never reached
+            return "";
         }
     }
 

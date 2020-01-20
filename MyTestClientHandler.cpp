@@ -53,4 +53,15 @@ void MyTestClientHandler::handleClient(int client_socket) {
             std::cout << "solution  message sent to server" << std::endl;
         }
     }
+
+
+}
+
+MyTestClientHandler::MyTestClientHandler(const MyTestClientHandler &obj) {
+    solver = (obj.solver->copy());
+    cm = obj.cm->copy();
+}
+
+ClientHandler *MyTestClientHandler::copy() {
+    return new MyTestClientHandler(*this);
 }

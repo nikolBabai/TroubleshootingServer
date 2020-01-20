@@ -7,11 +7,11 @@
 MatrixMySearch::MatrixMySearch(const int rowsIn, const int columnsIn, deque<string> dequeStringsIn) {
     this->rows = rowsIn;
     this->columns = columnsIn;
-    const int rows = const_cast<int &>(this->rows);
-    const int cols = const_cast<int &>(this->columns);
-    this->matrixOfStates = static_cast<State<struct Point> ***>(malloc(rows * sizeof(State<Point> *)));
+    const int rowsConst = const_cast<int &>(this->rows);
+    const int colsConst = const_cast<int &>(this->columns);
+    this->matrixOfStates = static_cast<State<struct Point> ***>(malloc(rowsConst * sizeof(State<Point> *)));
     for (int i = 0; i < rows; i++) {
-        this->matrixOfStates[i] = static_cast<State<struct Point> **>(malloc(rows * sizeof(State<Point> *)));
+        this->matrixOfStates[i] = static_cast<State<struct Point> **>(malloc(colsConst * sizeof(State<Point> *)));
     }
     this->dequeStrings = dequeStringsIn;
     // initializing the matrix
@@ -122,14 +122,12 @@ int *MatrixMySearch::editcomma(string line) {
                 c += line[i];
         } else if (line[i] == ',') {
             arrayOfNums[j] = atoi(c.c_str());
-            int check = arrayOfNums[j];
             c = "";
             j += 1;
         }
     }
     // entering the last in line
     arrayOfNums[j] = atoi(c.c_str());
-    int check = arrayOfNums[j];
     return arrayOfNums;
 }
 
@@ -152,3 +150,5 @@ void MatrixMySearch::initializeStates() {
 string MatrixMySearch::noPath() {
     return "";
 }
+
+

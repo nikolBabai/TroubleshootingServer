@@ -16,7 +16,7 @@ public:
         return *this;
     }
 
-    Point(const int x, const int y) : x(x), y(y) {}
+    Point(const int xIn, const int yIn) : x(xIn), y(yIn) {}
 
     bool operator==(Point s) {
         return (this->x == s.x) && (this->y == s.y);

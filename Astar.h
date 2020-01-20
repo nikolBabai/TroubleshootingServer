@@ -20,6 +20,8 @@ class Astar : public CommonSearcher<solution, T> {
             double F_R = right->getTrailCost() + right->getHeuristic();
             return F_L > F_R;
         }
+
+        virtual ~ComparatorAStar() = default;
     };
 
 private:
@@ -35,7 +37,7 @@ public:
 
         this->setSearchable(searchable);
         State<T> *startState = searchable->getInitialeState();
-        State<T> *goalState = searchable->getGoalState();
+        //State<T> *goalState = searchable->getGoalState();
         //push the init state to queue
         enterToOpen(startState, &openPriority_queue, &openCopy);
         while (!openPriority_queue.empty()) {

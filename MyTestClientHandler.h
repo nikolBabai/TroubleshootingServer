@@ -18,11 +18,11 @@ private:
 public:
     MyTestClientHandler(Solver<string, string> *solverIn, CacheManager<string, string> *cashIn);
 
+    MyTestClientHandler(const MyTestClientHandler &obj);
+
     void handleClient(int client_socket);
 
-    MyTestClientHandler *copy() {}
-
-
+    ClientHandler *copy() override;
 };
 
 

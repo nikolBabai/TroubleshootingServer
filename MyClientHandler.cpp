@@ -9,8 +9,8 @@
 
 using namespace std;
 
-MyClientHandler::MyClientHandler(Solver<Searchable<Point> *, string> *solver,
-                                 CacheManager<string, string> *cm) : solver(solver), cm(cm) {}
+MyClientHandler::MyClientHandler(Solver<Searchable<Point> *, string> *solverIn,
+                                 CacheManager<string, string> *cmIn) : solver(solverIn), cm(cmIn) {}
 
 /** read line by line
 //when getting to last two lines get the point x,y of the first
@@ -90,7 +90,7 @@ MatrixMySearch *MyClientHandler::buildProblem() {
     int cols = 1;
     // receiving a line of a row from the deque
     string line = this->dequeStrings.front();
-    for (int i = 0; i < line.length(); i++) {
+    for (unsigned int i = 0; i < line.length(); i++) {
         if (line[i] == ',') {
             cols += 1;
         }

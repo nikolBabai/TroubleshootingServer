@@ -47,8 +47,7 @@ public:
 
     string noPath();
 
-    MatrixMySearch *copy() {
-    }
+    //MatrixMySearch *copy();
 };
 
 #endif //EXX4_MATRIXMYSEARCH_H

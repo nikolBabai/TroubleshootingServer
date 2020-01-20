@@ -26,6 +26,7 @@ public:
         this->searchable1 = searchableIn;
     };
 
+    virtual ~Searcher() = default;
 };
 
 #endif //EXX4_SEARCHER_H

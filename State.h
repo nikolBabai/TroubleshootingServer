@@ -23,7 +23,7 @@ public:
         return state == s->getState();
     }
 
-    State(T state, double costIn, double costTrailIn) : state(state), cost(costIn), trailCost(costTrailIn) {
+    State(T stateIn, double costIn, double costTrailIn) : state(stateIn), cost(costIn), trailCost(costTrailIn) {
     }
 
     T getLocationT() {
@@ -62,8 +62,8 @@ public:
         return this->heuristic;
     }
 
-    void setHeuristic(double heuristic) {
-        this->heuristic = heuristic;
+    void setHeuristic(double heuristicIn) {
+        this->heuristic = heuristicIn;
     }
 };
 

@@ -53,7 +53,9 @@ namespace boot {
 
 }
 
-int main(int argsc, char *argv[]) {
-    boot::Main main;
-    main.main(atoi(argv[1]));
+int main(int argc, char *argv[]) {
+    if (argc > 1) {
+        boot::Main main;
+        main.main(atoi(argv[1]));
+    }
 }

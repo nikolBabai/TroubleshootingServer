@@ -21,7 +21,9 @@ public:
 
     virtual std::pair<int, int> getLocationInSearchable(State<T> *state) = 0;
 
-    virtual Searchable *copy() = 0;
+    //virtual Searchable *copy() = 0;
+
+    virtual ~Searchable() = default;
 };
 
 #endif //EXX4_SEARCHABLE_H

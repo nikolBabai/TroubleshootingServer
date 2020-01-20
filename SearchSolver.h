@@ -18,7 +18,7 @@ public:
         return searcher->search(pb);
     }
 
-    SearchSolver(Searcher<solution, T> *searcher) : searcher(searcher) {}
+    SearchSolver(Searcher<solution, T> *searcherIn) : searcher(searcherIn) {}
 
     SearchSolver(const SearchSolver &obj) {
         searcher = obj.searcher.copy();
