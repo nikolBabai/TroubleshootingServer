@@ -29,16 +29,8 @@ namespace server_side {
 
         virtual int close(int port) = 0;
 
+        virtual ~Server() = default;
+
     };
 }
-/*
-    namespace boot {
-        class Main {
-        public:
-            int main(int port) {
-            };
-        };
-    }
- */
-
 #endif //EXX4_SERVER_H

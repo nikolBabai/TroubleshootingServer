@@ -9,24 +9,25 @@
 #include "deque"
 #include "Point.h"
 #include <queue>
+
 class MatrixMySearch : public Searchable<Point> {
 private:
     State<Point> *startState;
     State<Point> *goalState;
-    Point* start;
-    Point* destination;
-     int rows;
-     int columns;
+    Point *start;
+    Point *destination;
+    int rows;
+    int columns;
     State<Point> ***matrixOfStates;
-    deque<string> dequeStrings;
+    deque <string> dequeStrings;
 public:
-    MatrixMySearch(const int rowsIn,const int columnsIn, deque<string> dequeStrings);
+    MatrixMySearch(const int rowsIn, const int columnsIn, deque <string> dequeStrings);
 
-    State<Point>* getInitialeState();
+    State<Point> *getInitialeState();
 
-    State<Point>* getGoalState();
+    State<Point> *getGoalState();
 
-    list<State<Point>*> createSuccessors(State<Point>* s);
+    list<State<Point> *> createSuccessors(State<Point> *s);
 
     void initializeMatrix();
 
@@ -45,8 +46,8 @@ public:
     bool isValidState(State<Point> *s);
 
     string noPath();
-    MatrixMySearch* copy(){
-    }
+
+    //MatrixMySearch *copy();
 };
 
 #endif //EXX4_MATRIXMYSEARCH_H

@@ -6,7 +6,9 @@
 #define EXX4_CACHEMANAGER_H
 
 #include "string"
+
 using namespace std;
+
 template<class problem, class solution>
 
 class CacheManager {
@@ -17,6 +19,9 @@ public:
 
     virtual void saveSolution(problem p, solution *s) = 0;
 
-    virtual CacheManager* copy() = 0;
+    virtual CacheManager *copy() = 0;
+
+    virtual ~CacheManager() = default;
 };
+
 #endif //EXX4_CACHEMANAGER_H

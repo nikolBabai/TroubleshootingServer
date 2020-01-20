@@ -4,9 +4,14 @@
 
 #ifndef EXX4_CLIENTHANDLER_H
 #define EXX4_CLIENTHANDLER_H
+
 class ClientHandler {
 public:
-    virtual void handleClient(int client_socket)= 0;
-    virtual ClientHandler* copy()=0;
+    virtual void handleClient(int client_socket) = 0;
+
+    virtual ClientHandler *copy() = 0;
+
+    virtual ~ClientHandler() = default;
 };
+
 #endif //EXX4_CLIENTHANDLER_H

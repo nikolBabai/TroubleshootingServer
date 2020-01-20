@@ -30,7 +30,8 @@ void MySerialServer::start(ClientHandler *ch, int socketfd, sockaddr_in address)
 }
 **/
 
-void MySerialServer::start(int *sock, void *cli, socklen_t *clil, ClientHandler *client_handler) {
+/** creating thread and solving the problem we get from the client using the client handler**/
+void MySerialServer::start(int *sock, socklen_t *clil, ClientHandler *client_handler) {
     //waiting until connection
     // accepting a client
     struct sockaddr cli1 = *((struct sockaddr *) clil);
@@ -55,7 +56,9 @@ void MySerialServer::start(int *sock, void *cli, socklen_t *clil, ClientHandler 
     }
 }
 
-int MySerialServer::open(int port, ClientHandler *client_handler) {
+/** trying to connect to a client**/
+/** creating thread and solving the problem we get from the client **/
+int MySerialServer::open(int portIn, ClientHandler *client_handler) {
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketfd < 0) {
         //error
@@ -70,7 +73,7 @@ int MySerialServer::open(int port, ClientHandler *client_handler) {
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY; //give me any IP allocated for my machine
     // calculating the number entered
-    address.sin_port = htons((int) port);
+    address.sin_port = htons((int) portIn);
     //we need to convert our number to a number that the network understands.
     //the actual bind command
     if (bind(socketfd, (struct sockaddr *) &address, sizeof(address)) == -1) {
@@ -86,16 +89,17 @@ int MySerialServer::open(int port, ClientHandler *client_handler) {
 
     socklen_t clilen = sizeof(cli_addr);
     int *sockfdPtr = &socketfd;
-    struct sockaddr_in *client_addrPtr = &cli_addr;
     socklen_t *clientPtr = &clilen;
 
-    std::thread t1(&MySerialServer::start, this, sockfdPtr, client_addrPtr, clientPtr, client_handler);
+    std::thread t1(&MySerialServer::start, this, sockfdPtr, clientPtr, client_handler);
     t1.join();
     cout << "in open" << endl;
 
-    close(socketfd); //closing the listening socket
+    //closing the listening socket
+    return this->close(socketfd);
 }
 
-int MySerialServer::close(int port) {
-
+int MySerialServer::close(int socketfd) {
+    close(socketfd);
+    return 1;
 }

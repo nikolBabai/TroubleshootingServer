@@ -1,36 +1,39 @@
 //
 // Created by oem on 10/01/2020.
 //
-#include <iostream>
 #include "MatrixMySearch.h"
 #include "Point.h"
 
 MatrixMySearch::MatrixMySearch(const int rowsIn, const int columnsIn, deque<string> dequeStringsIn) {
     this->rows = rowsIn;
     this->columns = columnsIn;
-    const int rows = const_cast<int &>(this->rows);
-    const int cols = const_cast<int &>(this->columns);
-    this->matrixOfStates = static_cast<State<struct Point> ***>(malloc(rows * sizeof(State<Point> *)));
+    const int rowsConst = const_cast<int &>(this->rows);
+    const int colsConst = const_cast<int &>(this->columns);
+    this->matrixOfStates = static_cast<State<struct Point> ***>(malloc(rowsConst * sizeof(State<Point> *)));
     for (int i = 0; i < rows; i++) {
-        this->matrixOfStates[i] = static_cast<State<struct Point> **>(malloc(rows * sizeof(State<Point> *)));
+        this->matrixOfStates[i] = static_cast<State<struct Point> **>(malloc(colsConst * sizeof(State<Point> *)));
     }
     this->dequeStrings = dequeStringsIn;
     // initializing the matrix
     initializeMatrix();
 }
 
+/** returns the start state in the matrix**/
 State<Point> *MatrixMySearch::getInitialeState() {
     return this->startState;
 }
 
+/** returns the goal state in the matrix**/
 State<Point> *MatrixMySearch::getGoalState() {
     return this->goalState;
 }
 
+/** returns the cost (x and y) of a state in the matrix**/
 double MatrixMySearch::getCostInMatrix(int row, int col) {
     return this->matrixOfStates[row][col]->getCost();
 }
 
+/** returns the location (x and y) of a state in the matrix**/
 std::pair<int, int> MatrixMySearch::getLocationInSearchable(State<Point> *state) {
     int x = state->getState().x;
     int y = state->getState().y;
@@ -67,15 +70,17 @@ list<State<Point> *> MatrixMySearch::createSuccessors(State<Point> *s) {
     return *listStates;
 }
 
+/** checks that a state in the matrix is valid and we can move to it**/
 bool MatrixMySearch::isValidState(State<Point> *s) {
     return s->getCost() != -1;
 }
 
+/** check if a state is one of the goal's states**/
 bool MatrixMySearch::isGoal(State<Point> *s) {
     return (s->Equals(this->getGoalState()));
 }
 
-
+/** building a matrix of states according to the strings in the deque**/
 void MatrixMySearch::initializeMatrix() {
     int col = 0, row = 0;
     for (; row < this->rows; row++, col = 0) {
@@ -87,7 +92,6 @@ void MatrixMySearch::initializeMatrix() {
             const int y = col;
             Point *p = new Point(x, y);
             (this->matrixOfStates)[row][col] = (new State<Point>(*p, cost, cost));
-           // cout << this->matrixOfStates[row][col]->getCost() << endl;
         }
         this->dequeStrings.pop_front();
     }
@@ -95,6 +99,7 @@ void MatrixMySearch::initializeMatrix() {
     initializeStates();
 }
 
+/** removes spaces in line**/
 string MatrixMySearch::edit(string s) {
     size_t prev = 0, pos;
     while ((pos = s.find_first_of(" ", prev)) != std::string::npos) {
@@ -105,6 +110,7 @@ string MatrixMySearch::edit(string s) {
     return s;
 }
 
+/** makes an array of int according to the line we received from the client**/
 int *MatrixMySearch::editcomma(string line) {
     string c = "";
     int j = 0;
@@ -116,17 +122,16 @@ int *MatrixMySearch::editcomma(string line) {
                 c += line[i];
         } else if (line[i] == ',') {
             arrayOfNums[j] = atoi(c.c_str());
-            int check = arrayOfNums[j];
             c = "";
             j += 1;
         }
     }
     // entering the last in line
     arrayOfNums[j] = atoi(c.c_str());
-    int check = arrayOfNums[j];
     return arrayOfNums;
 }
 
+/** creating the initial and goal states according to the information we received from the client**/
 void MatrixMySearch::initializeStates() {
     string start1 = edit(this->dequeStrings.front());
     int *startArr = editcomma(start1);
@@ -145,3 +150,5 @@ void MatrixMySearch::initializeStates() {
 string MatrixMySearch::noPath() {
     return "";
 }
+
+

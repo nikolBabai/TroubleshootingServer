@@ -7,16 +7,21 @@
 #include <thread>
 #include <strings.h>
 #include "MyParallelServer.h"
+
 struct threadInfo {
     int socket;
-    ClientHandler* Client_Handler_OfThread;
+    ClientHandler *Client_Handler_OfThread;
 };
 static int socketfd;
-void *  MyParallelServer::StarttheThreadClient(void* infoIn ){
-    auto info = (threadInfo*)infoIn ;
+
+void *MyParallelServer::StarttheThreadClient(void *infoIn) {
+    auto info = (threadInfo *) infoIn;
     info->Client_Handler_OfThread->handleClient(info->socket);
+    return reinterpret_cast<void *>(1);
 }
-void  MyParallelServer::start(int *sock, void *cli, socklen_t *clil, ClientHandler *client_handler) {
+
+/** creating threads and solving the problems we get from the clients **/
+void MyParallelServer::start(int *sock, socklen_t *clil, ClientHandler *client_handler) {
     while (true) {
         //waiting until connection
         // accepting a client
@@ -37,10 +42,10 @@ void  MyParallelServer::start(int *sock, void *cli, socklen_t *clil, ClientHandl
             }
             auto data = new Info();
             data->sockfd = client_socket1;
-            data->Client_Handler =client_handler->copy();
+            data->Client_Handler = client_handler->copy();
             pthread_t threadOfClient;
-            if (pthread_create(&threadOfClient, nullptr, StarttheThreadClient, data) > 0){
-                cerr<<"Could not create the thread"<<endl;
+            if (pthread_create(&threadOfClient, nullptr, StarttheThreadClient, data) > 0) {
+                cerr << "Could not create the thread" << endl;
                 exit(1);
             }
             thread_List.push_back(threadOfClient);
@@ -48,7 +53,9 @@ void  MyParallelServer::start(int *sock, void *cli, socklen_t *clil, ClientHandl
         }
     }
 }
-int MyParallelServer::open(int port, ClientHandler *client_handler) {
+
+/** trying to connect to several clients**/
+int MyParallelServer::open(int portIn, ClientHandler *client_handler) {
     socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketfd < 0) {
         //error
@@ -63,7 +70,7 @@ int MyParallelServer::open(int port, ClientHandler *client_handler) {
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY; //give me any IP allocated for my machine
     // calculating the number entered
-    address.sin_port = htons((int) port);
+    address.sin_port = htons((int) portIn);
     //we need to convert our number to a number that the network understands.
     //the actual bind command
     if (bind(socketfd, (struct sockaddr *) &address, sizeof(address)) == -1) {
@@ -77,16 +84,15 @@ int MyParallelServer::open(int port, ClientHandler *client_handler) {
     }
     socklen_t clilen = sizeof(cli_addr);
     int *sockfdPtr = &socketfd;
-    struct sockaddr_in *client_addrPtr = &cli_addr;
     socklen_t *clientPtr = &clilen;
-    std::thread t1(&MyParallelServer::start, this, sockfdPtr, client_addrPtr, clientPtr, client_handler);
+    std::thread t1(&MyParallelServer::start, this, sockfdPtr, clientPtr, client_handler);
     t1.join();
     cout << "in open" << endl;
-    close(socketfd); //closing the listening socket
+    return close(socketfd); //closing the listening socket
 }
-void MyParallelServer::stop() {
 
-}
-int MyParallelServer:: close(int port) {
 
+/** clone **/
+int MyParallelServer::close(int portIn) {
+    return 1;
 }
