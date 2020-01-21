@@ -78,7 +78,7 @@ int MyParallelServer::open(int portIn, ClientHandler *client_handler) {
         exit(1);
     }
     //making socket listen to the port
-    if (listen(socketfd, 5) == -1) { //can also set to SOMAXCON (max connections)
+    if (listen(socketfd, 10)== -1) { //can also set to SOMAXCON (max connections)
         cerr << "Bad connedction 4\n";
         exit(1);
     }
