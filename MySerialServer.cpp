@@ -100,6 +100,6 @@ int MySerialServer::open(int portIn, ClientHandler *client_handler) {
 }
 
 int MySerialServer::close(int socketfd) {
-    close(socketfd);
+    //close(socketfd);
     return 1;
 }

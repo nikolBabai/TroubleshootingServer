@@ -30,9 +30,7 @@ namespace boot {
 
         void part3(int port) {
             // building the searcher
-         //  CommonSearcher<string, Point> *commonSearcher = new Astar<Point, string>();
-            CommonSearcher<string, Point> *commonSearcher = new DFS<Point, string>();
-
+           CommonSearcher<string, Point> *commonSearcher = new Astar<Point, string>();
 
             // building the solver
             Searcher<string, Point> *searcherBFS = commonSearcher;
