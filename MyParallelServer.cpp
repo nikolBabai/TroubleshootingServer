@@ -48,7 +48,7 @@ void MyParallelServer::start(int *sock, socklen_t *clil, ClientHandler *client_h
                 cerr << "Could not create the thread" << endl;
                 exit(1);
             }
-            thread_List.push_back(threadOfClient);
+            thread_List.push(threadOfClient);
             setsockopt(*sock, SOL_SOCKET, SO_RCVTIMEO, (const char *) &tv, sizeof tv);
         }
     }
@@ -88,11 +88,13 @@ int MyParallelServer::open(int portIn, ClientHandler *client_handler) {
     std::thread t1(&MyParallelServer::start, this, sockfdPtr, clientPtr, client_handler);
     t1.join();
     cout << "in open" << endl;
-    return close(socketfd); //closing the listening socket
+    return stop(socketfd); //closing the listening socket
 }
 
 
 /** clone **/
-int MyParallelServer::close(int portIn) {
-    return 1;
-}
+int MyParallelServer::stop(int portIn) {
+    while(!thread_List.empty()){
+       pthread_join(thread_List.top(), nullptr);
+thread_List.pop();
+}}
