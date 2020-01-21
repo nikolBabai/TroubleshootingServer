@@ -17,6 +17,7 @@ class DFS : public CommonSearcher<solution, T> {
 private:
     int numEvaluatedNodes = 0;
 public:
+    /**
     /** looking for a path to the given goal state with the smallest cost **/
     solution search(Searchable<T> *searchable) override {
         numEvaluatedNodes = 0;
@@ -26,7 +27,7 @@ public:
         this->setSearchable(searchable);
         State<T> *startState = this->getSearchable()->getInitialeState();
 
-        visited.push_back(startState);
+       // visited.push_back(startState);
         openStack.push(startState);
         while (openStack.size() > 0) {
 
@@ -43,6 +44,9 @@ public:
             // entering the successors to the priority list too
             list<State<T> *> successors = (this->getSearchable())->createSuccessors(curState);
             for (State<T> *n: successors) {
+                if (this->getDirection(n, curState) == "") {
+                    cout<< "error"<<endl;
+                }
                 if (!checkIfVisitedContains(visited, n)) {
                     n->setCameFRom(curState);
                     n->setTrailCost(curState->getTrailCost() + n->getCost());
