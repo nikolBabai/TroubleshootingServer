@@ -6,13 +6,13 @@
 #define EXX4_MYPARALLELSERVER_H
 
 #include "Server.h"
-#include <list>
-
+#include <stack>
+#include <unistd.h>
 class MyParallelServer : public server_side::Server {
 private:
 
 
-    list <pthread_t> thread_List;
+   stack<pthread_t> thread_List;
 public:
     struct Info {
         int sockfd;
@@ -29,7 +29,7 @@ public:
 
     int getSocket();
 
-    int close(int);
+    int stop(int);
 
     static void *StarttheThreadClient(void *infoIn);
 };

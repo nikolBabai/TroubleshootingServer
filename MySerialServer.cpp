@@ -7,6 +7,7 @@
 #include <thread>
 #include <strings.h>
 #include "MySerialServer.h"
+#include <unistd.h>
 
 /**
 void MySerialServer::start(ClientHandler *ch, int socketfd, sockaddr_in address) {
@@ -51,7 +52,7 @@ void MySerialServer::start(int *sock, socklen_t *clil, ClientHandler *client_han
         }
         // handle the client
         client_handler->handleClient(client_socket1);
-        close(client_socket1);
+      stop(client_socket1);
         setsockopt(*sock, SOL_SOCKET, SO_RCVTIMEO, (const char *) &tv, sizeof tv);
     }
 }
@@ -96,10 +97,10 @@ int MySerialServer::open(int portIn, ClientHandler *client_handler) {
     cout << "in open" << endl;
 
     //closing the listening socket
-    return this->close(socketfd);
+    return this->stop(socketfd);
 }
 
-int MySerialServer::close(int socketfd) {
-    //close(socketfd);
+int MySerialServer::stop(int socketfd) {
+    close(socketfd);
     return 1;
 }

@@ -12,7 +12,7 @@ class MySerialServer : public server_side::Server {
 public:
     int open(int port, ClientHandler *client_handler);
 
-    int close(int port);
+    int stop(int port);
 
     void start(int* sock, socklen_t * clil ,ClientHandler* client_handler);
     };

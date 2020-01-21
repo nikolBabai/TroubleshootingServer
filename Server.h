@@ -27,7 +27,7 @@ namespace server_side {
         // pure virtual function
         virtual int open(int port, ClientHandler *client_handler) = 0;
 
-        virtual int close(int port) = 0;
+        virtual int stop(int port) = 0;
 
         virtual ~Server() = default;
 
