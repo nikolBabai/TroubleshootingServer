@@ -48,18 +48,15 @@ void MyClientHandler::handleClient(int client_socket) {
     MatrixMySearch *matrixProb = buildProblem();
     //Searchable<Point> *matrix = &matrixProb;
     // checking if the problem has a solution in the cashManeger
+    char const *solution;
     if (this->cm->isSolutionExist(megaLine)) {
         // there is a solution - returning it to the client
-        std::cout << "there is a solution" << endl;
         string sol = cm->getSolution(megaLine);
-        // std::cout << sol << endl;
         sizeLine = sol.length();
         std::cout << sizeLine << endl;
-        char const *solution = (sol).c_str();
+        solution = (sol).c_str();
         std::cout << solution << endl;
-        send(client_socket, solution, sizeLine, 0);
     } else {
-        std::cout << "there is'nt a solution" << endl;
         // there is'nt a solution - solving the problem, saving it in the cache
         string solution1 = "";
         try {
@@ -72,14 +69,14 @@ void MyClientHandler::handleClient(int client_socket) {
         sizeLine = solution1.size();
         std::cout << sizeLine << endl;
         // returning to the client the solution
-        char const *solutionChar = (solution1).c_str();
-        std::cout << solutionChar << endl;
-        int is_sent = send(client_socket, solutionChar, sizeLine, 0);
-        if (is_sent == -1) {
-            std::cout << "Error sending message reveres" << std::endl;
-        } else {
-            std::cout << "solution  message sent to server" << std::endl;
-        }
+        solution = (solution1).c_str();
+        std::cout << solution << endl;
+    }
+    int is_sent = send(client_socket, solution, sizeLine, 0);
+    if (is_sent == -1) {
+        std::cout << "Error sending message reveres" << std::endl;
+    } else {
+        std::cout << "solution  message sent to server" << std::endl;
     }
 }
 

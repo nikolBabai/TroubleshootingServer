@@ -87,14 +87,14 @@ int MyParallelServer::open(int portIn, ClientHandler *client_handler) {
     socklen_t *clientPtr = &clilen;
     std::thread t1(&MyParallelServer::start, this, sockfdPtr, clientPtr, client_handler);
     t1.join();
-    cout << "in open" << endl;
     return stop(socketfd); //closing the listening socket
 }
 
 
 /** clone **/
 int MyParallelServer::stop(int portIn) {
-    while(!thread_List.empty()){
-       pthread_join(thread_List.top(), nullptr);
-thread_List.pop();
-}}
+    while (!thread_List.empty()) {
+        pthread_join(thread_List.top(), nullptr);
+        thread_List.pop();
+    }
+}
