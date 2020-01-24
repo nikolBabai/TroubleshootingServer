@@ -34,7 +34,6 @@ void MyParallelServer::start(int *sock, socklen_t *clil, ClientHandler *client_h
         tv.tv_sec = timeout_in_seconds;
         setsockopt(sock1, SOL_SOCKET, SO_RCVTIMEO, (const char *) &tv, sizeof tv);
         while (true) {
-            cout << "in start" << endl;
             int client_socket1 = accept(sock1, &cli1, &clil1);
             if (client_socket1 < 0) {
                 cout << "NO CONNECTION TO CLIENT\n";

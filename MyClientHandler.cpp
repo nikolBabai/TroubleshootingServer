@@ -48,14 +48,18 @@ void MyClientHandler::handleClient(int client_socket) {
     MatrixMySearch *matrixProb = buildProblem();
     //Searchable<Point> *matrix = &matrixProb;
     // checking if the problem has a solution in the cashManeger
-    char const *solution;
     if (this->cm->isSolutionExist(megaLine)) {
         // there is a solution - returning it to the client
         string sol = cm->getSolution(megaLine);
         sizeLine = sol.length();
-        std::cout << sizeLine << endl;
-        solution = (sol).c_str();
-        std::cout << solution << endl;
+        char const *solution = (sol).c_str();
+        //std::cout << solution << endl;
+        int is_sent = send(client_socket, solution, sizeLine, 0);
+        if (is_sent == -1) {
+            std::cout << "Error sending message reveres" << std::endl;
+        } else {
+            std::cout << "solution  message sent to server" << std::endl;
+        }
     } else {
         // there is'nt a solution - solving the problem, saving it in the cache
         string solution1 = "";
@@ -63,20 +67,19 @@ void MyClientHandler::handleClient(int client_socket) {
             solution1 = solver->solve(matrixProb);
             cm->saveSolution(megaLine, &solution1);
         } catch (const char *e) {
-            std::cout << "there is'nt a solution to the problem" << endl;
+            //std::cout << "there is'nt a solution to the problem" << endl;
             solution1 = "there is'nt a solution to the problem";
         }
         sizeLine = solution1.size();
-        std::cout << sizeLine << endl;
         // returning to the client the solution
-        solution = (solution1).c_str();
-        std::cout << solution << endl;
-    }
-    int is_sent = send(client_socket, solution, sizeLine, 0);
-    if (is_sent == -1) {
-        std::cout << "Error sending message reveres" << std::endl;
-    } else {
-        std::cout << "solution  message sent to server" << std::endl;
+        char const *solution = (solution1).c_str();
+        //std::cout << solution << endl;
+        int is_sent = send(client_socket, solution, sizeLine, 0);
+        if (is_sent == -1) {
+            std::cout << "Error sending message reveres" << std::endl;
+        } else {
+            std::cout << "solution  message sent to server" << std::endl;
+        }
     }
 }
 
